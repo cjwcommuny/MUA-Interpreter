@@ -1,11 +1,11 @@
-//
-// InteractiveInterface
+package mua;//
+// mua.InteractiveInterface
 // Created by cjw on 2018/10/24.
 
 public class InteractiveInterface {
-	static String promptStr = ConsoleColors.CYAN + "MUA" + ConsoleColors.GREEN + " $ " + ConsoleColors.RESET;
+	static String promptStr = ConsoleColors.CYAN + "MUA" + ConsoleColors.GREEN + "> " + ConsoleColors.RESET;
 	static String exitCommand = "exit";
-	private static String exitPrompt = "Leave MUA Interpreter."
+	static String exitPrompt = "Leave MUA mua.Interpreter.";
 	
 	class ConsoleColors {
 		// Reset
