@@ -35,4 +35,5 @@ public class MuaNumber extends MuaObject {
         }
         return value < ((MuaNumber) obj).getValue();
     }
+
 }

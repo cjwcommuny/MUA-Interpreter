@@ -5,10 +5,10 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.MuaBool;
 import mua.object.MuaObject;
 
-public class MuaEqualOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "eq";
+public class MuaGreatThanOperator extends MuaFunctor {
+    private static final String FUNC_NAME = "gt";
     private static final int ARGUMENT_NUM = 2;
-    public MuaEqualOperator() {
+    public MuaGreatThanOperator() {
         super(FUNC_NAME, true);
     }
 
@@ -22,7 +22,7 @@ public class MuaEqualOperator extends MuaFunctor {
         try {
             op1 = argumentList.get(0);
             op2 = argumentList.get(1);
-            return new MuaBool(op1.equals(op2));
+            return new MuaBool(!op1.lessThan(op2) && !op1.equals(op2));
         } catch (ClassCastException e) {
             throw new MuaArgumentTypeNotCompatibleException();
         }

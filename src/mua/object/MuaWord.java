@@ -34,4 +34,5 @@ public class MuaWord extends MuaObject {
         }
         return value.compareTo(((MuaWord) obj).getValue()) < 0;
     }
+
 }
