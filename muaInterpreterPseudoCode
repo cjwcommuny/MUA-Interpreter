@@ -1,0 +1,36 @@
+while (currentIndex < instruction.length) {
+    token = instruction[currentIndex]
+    result = dataTable.find(token)
+    if (result == null) {
+
+    }
+}
+
+static index
+static instructionArr
+handle() {
+    if (token is a number) {
+        //是否应该及早检查类型，这样比较有效率？？
+    } else if (token is a str) {
+
+    } else if (token is a list) {
+
+    } else if (token is a bool) {
+
+    } 
+    //search the table
+    else if (token can be found) {
+        if (token is a functor) {
+            n = functor.argumentCount
+            allocate array `arguments` for arguemnts with n cell
+            ++index
+            for i in 1 to n {
+                arguments[i] = handle()
+            }
+        } else {
+            return MuaObject it find in the table
+        }
+    } else {
+
+    }
+}

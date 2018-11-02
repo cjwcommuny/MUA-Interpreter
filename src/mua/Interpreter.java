@@ -5,15 +5,20 @@ import java.util.TreeMap;
 import mua.object.*;
 
 public class Interpreter {
-    DataTable dataTable = new DataTable();
+    static DataTable dataTable = new DataTable();
 
     static String interpret(String instructionStr) {
         instructionStr = removeComment(instructionStr);
         String[] instrcutionArr = strToList(instructionStr);
-        for (String token: instrcutionArr) {
-
+        //todo: check whether the instruction has a illegal word
+        for (int i = 0; i < instrcutionArr.length; ++i) {
+            
         }
         //TODO
+    }
+
+    static void handleToken(int currentIndex, String[] instructionArr) {
+
     }
 
     static private String[] strToList(String instruction) {
