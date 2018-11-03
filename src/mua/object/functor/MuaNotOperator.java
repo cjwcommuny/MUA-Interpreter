@@ -6,7 +6,7 @@ import mua.object.MuaBool;
 import mua.object.MuaObject;
 
 public class MuaNotOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "not";
+    public static final String FUNC_NAME = "not";
     private static final int ARGUMENT_NUM = 1;
     public MuaNotOperator() {
         super(FUNC_NAME, true);

@@ -5,7 +5,7 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 
 public class MuaEqualOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "eq";
+    public static final String FUNC_NAME = "eq";
     private static final int ARGUMENT_NUM = 2;
     public MuaEqualOperator() {
         super(FUNC_NAME, true);

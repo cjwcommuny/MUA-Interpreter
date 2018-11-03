@@ -5,13 +5,13 @@ import java.util.TreeMap;
 
 import mua.exception.*;
 import mua.object.*;
-import mua.object.functor.MuaFunctor;
+import mua.object.functor.*;
 
 import java.util.*;
 import java.io.*;
 
 public class Interpreter {
-    static DataTable dataTable = new DataTable();
+    static private DataTable dataTable = new DataTable();
     private static int instructionIndex = 0; //when a new inst come, it is set to zero
 
     public static int getInstructionIndex() {
@@ -36,6 +36,7 @@ public class Interpreter {
 
     static private MuaObject handleToken(final String[] instructionArr) throws MuaException {//todo
         String token = instructionArr[instructionIndex];
+        ++instructionIndex;
         if (isNumeric(token)) {
             return new MuaNumber(Double.parseDouble(token));
         } else if (isWord(token)) {
@@ -53,10 +54,10 @@ public class Interpreter {
             if (tableFindResult.getMuaType() == MuaType.functor) {
                 MuaFunctor operator = (MuaFunctor) tableFindResult;
                 int argumentNum = operator.getArgumentNum();
-                MuaFunctor.ArgumentList argumentList = new MuaFunctor.ArgumentList(argumentNum);
-                ++instructionIndex;
+                ArgumentList argumentList = new ArgumentList(argumentNum);
+
                 for (int i = 0; i < argumentNum; ++i) {
-                    argumentList.set(i, handleToken(instructionArr));
+                    argumentList.add(handleToken(instructionArr));
                 }
                 return operator.operate(argumentList);
             } else {
@@ -94,7 +95,17 @@ public class Interpreter {
     }
 
     static private void initInterpreter() {
-
+        dataTable.updateObject(MuaAddOperator.FUNC_NAME, new MuaAddOperator());
+        dataTable.updateObject(MuaAndOperator.FUNC_NAME, new MuaAndOperator());
+        dataTable.updateObject(MuaDivideOperator.FUNC_NAME, new MuaDivideOperator());
+        dataTable.updateObject(MuaEqualOperator.FUNC_NAME, new MuaEqualOperator());
+        dataTable.updateObject(MuaGreatThanOperator.FUNC_NAME, new MuaGreatThanOperator());
+        dataTable.updateObject(MuaLessThanOperator.FUNC_NAME, new MuaLessThanOperator());
+        dataTable.updateObject(MuaModuloOperator.FUNC_NAME, new MuaModuloOperator());
+        dataTable.updateObject(MuaMultiplyOperator.FUNC_NAME, new MuaMultiplyOperator());
+        dataTable.updateObject(MuaNotOperator.FUNC_NAME, new MuaNotOperator());
+        dataTable.updateObject(MuaOrOperator.FUNC_NAME, new MuaOrOperator());
+        dataTable.updateObject(MuaSubOperator.FUNC_NAME, new MuaSubOperator());
     }
 
     public static void main(String[] args) {
@@ -109,14 +120,18 @@ public class Interpreter {
                 outpuStream.println(InteractiveInterface.exitPrompt);
                 break;
             }
-            List<String> result;
+            List<String> results;
             try {
-                result = interpret(instruction);
+                results = interpret(instruction);
             } catch (MuaException e) {
-                result = new ArrayList<>();
-                result.add(e.getMessage());
+                results = new ArrayList<>();
+                results.add(e.getMessage());
             }
-            outpuStream.println(result);
+            for (String result: results) {
+                if (result != "") {
+                    outpuStream.println(result);
+                }
+            }
             clearAfterInstruction();
         }
     }

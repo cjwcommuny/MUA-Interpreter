@@ -5,7 +5,7 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 
 public class MuaLessThanOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "lt";
+    public static final String FUNC_NAME = "lt";
     private static final int ARGUMENT_NUM = 2;
     public MuaLessThanOperator() {
         super(FUNC_NAME, true);

@@ -6,7 +6,7 @@ import mua.exception.MuaDivideOrModuleZeroException;
 import mua.object.*;
 
 public class MuaDivideOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "add";
+    public static final String FUNC_NAME = "div";
     private static final int ARGUMENT_NUM = 2;
     private static final double epsilon = 0.0001; //todo: the location should be changed
     public MuaDivideOperator() {
@@ -14,7 +14,7 @@ public class MuaDivideOperator extends MuaFunctor {
     }
 
     @Override
-    public MuaObject operate(MuaFunctor.ArgumentList argumentList)
+    public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException, MuaDivideOrModuleZeroException {
         if (argumentList.size() != getArgumentNum()) {
             throw new MuaArgumentNumNotCompatibleException();

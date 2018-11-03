@@ -7,6 +7,7 @@ import mua.object.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public abstract class MuaFunctor extends MuaObject {
     private String funcName;
@@ -14,18 +15,7 @@ public abstract class MuaFunctor extends MuaObject {
     //private MuaType[] argumentTypes;
     //private ArgumentList argumentList = new ArgumentList();
 
-    public static class ArgumentList extends ArrayList<MuaObject> { //type alias
-        public ArgumentList(int initialCapacity) {
-            super(initialCapacity);
-        }
 
-        public ArgumentList() {
-        }
-
-        public ArgumentList(Collection<? extends MuaObject> c) {
-            super(c);
-        }
-    }
 
     public MuaFunctor(String funcName, boolean isBuiltIn) {
         super(MuaType.functor);

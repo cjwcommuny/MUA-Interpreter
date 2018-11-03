@@ -2,10 +2,10 @@ package mua;//
 // mua.InteractiveInterface
 // Created by cjw on 2018/10/24.
 
-public class InteractiveInterface {
+class InteractiveInterface {
 	static String promptStr = ConsoleColors.CYAN + "MUA" + ConsoleColors.GREEN + "> " + ConsoleColors.RESET;
 	static String exitCommand = "exit";
-	static String exitPrompt = "Leave MUA mua.Interpreter.";
+	static String exitPrompt = "Leave MUA Interpreter.";
 	
 	class ConsoleColors {
 		// Reset

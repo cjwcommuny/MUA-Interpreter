@@ -5,14 +5,14 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 
 public class MuaAndOperator extends MuaFunctor {
-    private static final String FUNC_NAME = "and";
+    public static final String FUNC_NAME = "and";
     private static final int ARGUMENT_NUM = 2;
     public MuaAndOperator() {
         super(FUNC_NAME, true);
     }
 
     @Override
-    public MuaObject operate(MuaFunctor.ArgumentList argumentList)
+    public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
         if (argumentList.size() != getArgumentNum()) {
             throw new MuaArgumentNumNotCompatibleException();
