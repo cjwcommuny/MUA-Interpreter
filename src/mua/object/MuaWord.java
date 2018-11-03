@@ -2,7 +2,7 @@ package mua.object;
 
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 
-public class MuaWord extends MuaObject {
+public class MuaWord extends MuaObject implements Comparable<MuaWord>{
     private String value;
 
     public MuaWord(String value) {
@@ -18,6 +18,7 @@ public class MuaWord extends MuaObject {
         this.value = value;
     }
 
+    /*
     @Override
     public boolean equals(Object obj) {
         if (getClass() != obj.getClass()) {
@@ -34,5 +35,15 @@ public class MuaWord extends MuaObject {
         }
         return value.compareTo(((MuaWord) obj).getValue()) < 0;
     }
+    */
 
+    @Override
+    public int compareTo(MuaWord o) {
+        return getValue().compareTo(o.getValue());
+    }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
 }

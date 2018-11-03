@@ -1,5 +1,7 @@
 package mua.object;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 public class MuaBool extends MuaObject {
     private boolean value;
 
@@ -23,5 +25,10 @@ public class MuaBool extends MuaObject {
         }
         boolean anotherBool = ((MuaBool) obj).getValue();
         return value == anotherBool;
+    }
+
+    @Override
+    public String toString() {
+        return Boolean.toString(getValue());
     }
 }

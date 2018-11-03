@@ -2,7 +2,7 @@ package mua.object;
 
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 
-public class MuaNumber extends MuaObject {
+public class MuaNumber extends MuaObject implements Comparable<MuaNumber> {
     private double value;
     //private final static double EPSILON = 0.001; //need to change
 
@@ -19,6 +19,7 @@ public class MuaNumber extends MuaObject {
         this.value = value;
     }
 
+    /*
     @Override
     public boolean equals(Object obj) {
         if (getClass() != obj.getClass()) {
@@ -35,5 +36,15 @@ public class MuaNumber extends MuaObject {
         }
         return value < ((MuaNumber) obj).getValue();
     }
+    */
 
+    @Override
+    public int compareTo(MuaNumber o) {
+        return (int) (value - o.getValue());
+    }
+
+    @Override
+    public String toString() {
+        return Double.toString(getValue());
+    }
 }

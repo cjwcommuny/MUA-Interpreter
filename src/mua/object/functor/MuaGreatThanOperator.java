@@ -2,8 +2,7 @@ package mua.object.functor;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.object.MuaBool;
-import mua.object.MuaObject;
+import mua.object.*;
 
 public class MuaGreatThanOperator extends MuaFunctor {
     private static final String FUNC_NAME = "gt";
@@ -18,12 +17,14 @@ public class MuaGreatThanOperator extends MuaFunctor {
         if (argumentList.size() != getArgumentNum()) {
             throw new MuaArgumentNumNotCompatibleException();
         }
-        MuaObject op1, op2;
-        try {
-            op1 = argumentList.get(0);
-            op2 = argumentList.get(1);
-            return new MuaBool(!op1.lessThan(op2) && !op1.equals(op2));
-        } catch (ClassCastException e) {
+        MuaObject op1 = argumentList.get(0);
+        MuaObject op2 = argumentList.get(1);
+
+        if (op1.getMuaType() == MuaType.number && op2.getMuaType() == MuaType.number) {
+            return new MuaBool(((MuaNumber) op1).compareTo((MuaNumber) op2) > 0);
+        } else if (op1.getMuaType() == MuaType.word && op2.getMuaType() == MuaType.word) {
+            return new MuaBool(((MuaWord) op1).compareTo((MuaWord) op2) > 0);
+        } else {
             throw new MuaArgumentTypeNotCompatibleException();
         }
     }

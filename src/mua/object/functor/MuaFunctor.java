@@ -11,9 +11,10 @@ import java.util.Collection;
 public abstract class MuaFunctor extends MuaObject {
     private String funcName;
     private boolean isBuiltIn = false;
+    //private MuaType[] argumentTypes;
     //private ArgumentList argumentList = new ArgumentList();
 
-    protected class ArgumentList extends ArrayList<MuaObject> { //type alias
+    public static class ArgumentList extends ArrayList<MuaObject> { //type alias
         public ArgumentList(int initialCapacity) {
             super(initialCapacity);
         }
@@ -30,10 +31,16 @@ public abstract class MuaFunctor extends MuaObject {
         super(MuaType.functor);
         this.funcName = funcName;
         this.isBuiltIn = isBuiltIn;
+        //this.argumentTypes = argumentTypes;
     }
 
     public abstract int getArgumentNum();
 
     public abstract MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException, MuaDivideOrModuleZeroException;
+    /*
+    public MuaType[] getArgumentTypes() {
+        return argumentTypes;
+    }
+    */
 }

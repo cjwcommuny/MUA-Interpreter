@@ -2,23 +2,67 @@ package mua;
 
 import java.util.Map;
 import java.util.TreeMap;
+
+import mua.exception.*;
 import mua.object.*;
+import mua.object.functor.MuaFunctor;
+
+import java.util.*;
+import java.io.*;
 
 public class Interpreter {
     static DataTable dataTable = new DataTable();
+    private static int instructionIndex = 0; //when a new inst come, it is set to zero
 
-    static String interpret(String instructionStr) {
+    public static int getInstructionIndex() {
+        return instructionIndex;
+    }
+
+    private static void setInstructionIndex(int instructionIndex) {
+        Interpreter.instructionIndex = instructionIndex;
+    }
+
+    static private List<String> interpret(String instructionStr) throws MuaException {
         instructionStr = removeComment(instructionStr);
         String[] instrcutionArr = strToList(instructionStr);
         //todo: check whether the instruction has a illegal word
-        for (int i = 0; i < instrcutionArr.length; ++i) {
-            
+
+        List<String> resultList = new ArrayList<>();
+        while (instructionIndex < instrcutionArr.length) {
+            resultList.add(handleToken(instrcutionArr).toString());
         }
-        //TODO
+        return resultList;
     }
 
-    static void handleToken(int currentIndex, String[] instructionArr) {
-
+    static private MuaObject handleToken(final String[] instructionArr) throws MuaException {//todo
+        String token = instructionArr[instructionIndex];
+        if (isNumeric(token)) {
+            return new MuaNumber(Double.parseDouble(token));
+        } else if (isWord(token)) {
+            return new MuaWord(token.substring(1));
+        } else if (isBool(token)) {
+            return new MuaBool(Boolean.parseBoolean(token));
+        } else if (isList(token)) {
+            return new MuaNone();//todo: not supported
+            //todo: need more parse
+        } else {
+            MuaObject tableFindResult = dataTable.getObject(token);
+            if (tableFindResult == null) {
+                throw new MuaSymbolNotResolvableException();
+            }
+            if (tableFindResult.getMuaType() == MuaType.functor) {
+                MuaFunctor operator = (MuaFunctor) tableFindResult;
+                int argumentNum = operator.getArgumentNum();
+                MuaFunctor.ArgumentList argumentList = new MuaFunctor.ArgumentList(argumentNum);
+                ++instructionIndex;
+                for (int i = 0; i < argumentNum; ++i) {
+                    argumentList.set(i, handleToken(instructionArr));
+                }
+                return operator.operate(argumentList);
+            } else {
+                return tableFindResult;
+            }
+        }
     }
 
     static private String[] strToList(String instruction) {
@@ -43,6 +87,56 @@ public class Interpreter {
             return instructionWithComment;
         }
         return instructionWithComment.substring(0, commentBeginnerIndex);
+    }
+
+    static private void clearAfterInstruction() {
+        setInstructionIndex(0);
+    }
+
+    static private void initInterpreter() {
+
+    }
+
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        PrintStream outpuStream = System.out;
+        Scanner s = new Scanner(inputStream);
+        initInterpreter();
+        while (true) {
+            outpuStream.print(InteractiveInterface.promptStr);
+            String instruction = s.nextLine();
+            if (instruction.equals(InteractiveInterface.exitCommand)) {
+                outpuStream.println(InteractiveInterface.exitPrompt);
+                break;
+            }
+            List<String> result;
+            try {
+                result = interpret(instruction);
+            } catch (MuaException e) {
+                result = new ArrayList<>();
+                result.add(e.getMessage());
+            }
+            outpuStream.println(result);
+            clearAfterInstruction();
+        }
+    }
+
+    private static boolean isNumeric(String str)
+    {
+        //match a number with optional '-' and decimal.
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    private static boolean isWord(String str) {
+        return str.length() >= 2 && str.charAt(0) == '\"';
+    }
+
+    private static boolean isList(String str) {//todo: need parse more
+        return str.charAt(0) == '[' && str.charAt(str.length() - 1) == ']';
+    }
+
+    private static boolean isBool(String str) {
+        return "true".equals(str) || "false".equals(str);
     }
 }
 

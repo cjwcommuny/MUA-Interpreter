@@ -9,4 +9,11 @@ public class MuaList extends MuaObject {
         super(MuaType.list);
         this.list = list;
     }
+
+    @Override
+    public String toString() {
+        return "[" +
+                "list=" + list +
+                ']';
+    }
 }

@@ -17,9 +17,4 @@ public abstract class MuaObject {
         this.muaType = muaType;
     }
 
-
-    public boolean lessThan(MuaObject obj) throws MuaArgumentTypeNotCompatibleException {
-        throw new MuaArgumentTypeNotCompatibleException();
-    }
-
 }
