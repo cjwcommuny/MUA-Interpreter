@@ -28,8 +28,7 @@ public class MuaMakeOperator extends MuaFunctor {
         checkArgumentNum(argumentList);
         MuaObject name = argumentList.get(0);
         MuaObject value = argumentList.get(1);
-        if (name.getMuaType() != MuaType.word ||
-                (value.getMuaType() != MuaType.word && value.getMuaType() != MuaType.number)) {
+        if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
         Interpreter.dataTable.updateObject(((MuaWord) name).getValue(), value);

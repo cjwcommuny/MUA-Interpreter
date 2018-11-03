@@ -12,8 +12,6 @@ public class MuaList extends MuaObject {
 
     @Override
     public String toString() {
-        return "[" +
-                "list=" + list +
-                ']';
+        return list.toString();
     }
 }

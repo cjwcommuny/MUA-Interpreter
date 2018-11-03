@@ -1,5 +1,6 @@
 package mua;
 
+import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -35,12 +36,12 @@ public class Interpreter {
 
     static private List<String> interpret(String instructionStr) throws MuaException {
         instructionStr = removeComment(instructionStr);
-        String[] instrcutionArr = strToList(instructionStr);
+        String[] instructionArr = strToList(instructionStr);
         //todo: check whether the instruction has a illegal word
 
         List<String> resultList = new ArrayList<>();
-        while (instructionIndex < instrcutionArr.length) {
-            resultList.add(handleToken(instrcutionArr).toString());
+        while (instructionIndex < instructionArr.length) {
+            resultList.add(handleToken(instructionArr).toString());
         }
         return resultList;
     }
@@ -55,8 +56,7 @@ public class Interpreter {
         } else if (isBool(token)) {
             return new MuaBool(Boolean.parseBoolean(token));
         } else if (isList(token)) {
-            return new MuaNone();//todo: not supported
-            //todo: need more parse
+            return constructMuaList(token);
         } else if  (isUnbounding(token)) {
             ArgumentList argumentList = new ArgumentList(1);
             argumentList.add(new MuaWord(token.substring(1)));
@@ -82,8 +82,70 @@ public class Interpreter {
         }
     }
 
-    static private String[] strToList(String instruction) {
-        return instruction.trim().split("\\s+");
+    static private String[] strToList(String instruction)
+            throws MuaBraceNotCompatibleException {
+        String[] strRemoveOuterBrace = splitList(instruction);
+        if (strRemoveOuterBrace.length == 1) {
+            //no brace
+            return instruction.trim().split("\\s+");
+        }
+        String[] leftInst = strRemoveOuterBrace[0].trim().split("\\s+");
+        String[] rightInst = strRemoveOuterBrace[2].trim().split("\\s+");
+        String[] result = concatStrArray(new String[][]{leftInst,
+                new String[]{strRemoveOuterBrace[1]},
+                rightInst});
+        return Arrays.stream(result).filter(x -> !x.isEmpty()).toArray(String[]::new);
+    }
+
+    private static MuaList constructMuaList(String listStr) throws MuaException {
+        String listStrWithoutBrace = listStr.substring(1, listStr.length() - 1);
+        String[] subListArr = strToList(listStrWithoutBrace);
+        List<MuaObject> listToConstructMuaList = new ArrayList<>();
+        for (String token: subListArr) {
+            if (isNumeric(token)) {
+                listToConstructMuaList.add(new MuaNumber(Double.parseDouble(token)));
+            } else if (isWord(token)) {
+                listToConstructMuaList.add(new MuaWord(token.substring(1)));
+            } else if (isBool(token)) {
+                listToConstructMuaList.add(new MuaBool(Boolean.parseBoolean(token)));
+            } else if (isList(token)) {
+                listToConstructMuaList.add(constructMuaList(token));
+            } else if  (isUnbounding(token)) {
+                ArgumentList argumentList = new ArgumentList(1);
+                argumentList.add(new MuaWord(token.substring(1)));
+                listToConstructMuaList.add((new MuaThingOperator()).operate(argumentList));
+            }
+        }
+        return new MuaList(listToConstructMuaList);
+    }
+
+    static private String[] concatStrArray(String[][] strArr) {
+        int totalStrNum = 0;
+        for (String[] subArr: strArr) {
+            totalStrNum += subArr.length;
+        }
+        String[] result = new String[totalStrNum];
+        int currentCopyIndex = 0;
+        for (int i = 0; i < strArr.length; ++i) {
+            System.arraycopy(strArr[i], 0, result, currentCopyIndex, strArr[i].length);
+            currentCopyIndex += strArr[i].length;
+        }
+        return result;
+    }
+
+    static private String[] splitList(String instruction) throws MuaBraceNotCompatibleException {
+        int leftBraceIndex = instruction.indexOf('[');
+        int rightBraceIndex = instruction.lastIndexOf(']');
+        if (leftBraceIndex == -1 && rightBraceIndex == -1) {
+            //not found list
+            return new String[]{instruction};
+        } else if (leftBraceIndex == -1 || rightBraceIndex == -1) {
+            throw new MuaBraceNotCompatibleException();
+        }
+        //the list in the return array contains brace
+        return new String[]{instruction.substring(0, leftBraceIndex),
+                instruction.substring(leftBraceIndex, rightBraceIndex + 1),
+                instruction.substring(rightBraceIndex+1)};
     }
 
     static private int findCommentBeginner(String instruction) {

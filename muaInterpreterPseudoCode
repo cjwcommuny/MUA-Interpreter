@@ -51,3 +51,5 @@ handle() {
         //wrong
     }
 }
+
+Arrays.stream(new String[]{"This","", "will", "", "", "work"})A.filter(x -> !x.isEmpty()).toArray(String[]::new);
