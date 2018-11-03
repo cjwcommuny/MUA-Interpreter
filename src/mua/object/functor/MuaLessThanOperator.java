@@ -8,15 +8,13 @@ public class MuaLessThanOperator extends MuaFunctor {
     public static final String FUNC_NAME = "lt";
     private static final int ARGUMENT_NUM = 2;
     public MuaLessThanOperator() {
-        super(FUNC_NAME, true);
+        super(FUNC_NAME, ARGUMENT_NUM,true);
     }
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
-        if (argumentList.size() != getArgumentNum()) {
-            throw new MuaArgumentNumNotCompatibleException();
-        }
+        checkArgumentNum(argumentList);
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);
 

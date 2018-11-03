@@ -11,8 +11,19 @@ import java.util.*;
 import java.io.*;
 
 public class Interpreter {
-    static private DataTable dataTable = new DataTable();
+    static public DataTable dataTable = new DataTable();
     private static int instructionIndex = 0; //when a new inst come, it is set to zero
+    private static InputStream inputStream = System.in;
+
+    public static InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public static PrintStream getOutpuStream() {
+        return outpuStream;
+    }
+
+    private static PrintStream outpuStream = System.out;
 
     public static int getInstructionIndex() {
         return instructionIndex;
@@ -46,7 +57,12 @@ public class Interpreter {
         } else if (isList(token)) {
             return new MuaNone();//todo: not supported
             //todo: need more parse
-        } else {
+        } else if  (isUnbounding(token)) {
+            ArgumentList argumentList = new ArgumentList(1);
+            argumentList.add(new MuaWord(token.substring(1)));
+            return (new MuaThingOperator()).operate(argumentList);
+        }
+        else {
             MuaObject tableFindResult = dataTable.getObject(token);
             if (tableFindResult == null) {
                 throw new MuaSymbolNotResolvableException();
@@ -95,6 +111,7 @@ public class Interpreter {
     }
 
     static private void initInterpreter() {
+        //register built-in function
         dataTable.updateObject(MuaAddOperator.FUNC_NAME, new MuaAddOperator());
         dataTable.updateObject(MuaAndOperator.FUNC_NAME, new MuaAndOperator());
         dataTable.updateObject(MuaDivideOperator.FUNC_NAME, new MuaDivideOperator());
@@ -106,11 +123,15 @@ public class Interpreter {
         dataTable.updateObject(MuaNotOperator.FUNC_NAME, new MuaNotOperator());
         dataTable.updateObject(MuaOrOperator.FUNC_NAME, new MuaOrOperator());
         dataTable.updateObject(MuaSubOperator.FUNC_NAME, new MuaSubOperator());
+        dataTable.updateObject(MuaMakeOperator.FUNC_NAME, new MuaMakeOperator());
+        dataTable.updateObject(MuaThingOperator.FUNC_NAME, new MuaThingOperator());
+        dataTable.updateObject(MuaEraseOperator.FUNC_NAME, new MuaEraseOperator());
+        dataTable.updateObject(MuaIsNameOperator.FUNC_NAME, new MuaIsNameOperator());
+        dataTable.updateObject(MuaPrintOperator.FUNC_NAME, new MuaPrintOperator());
+        dataTable.updateObject(MuaReadOperator.FUNC_NAME, new MuaReadOperator());
     }
 
     public static void main(String[] args) {
-        InputStream inputStream = System.in;
-        PrintStream outpuStream = System.out;
         Scanner s = new Scanner(inputStream);
         initInterpreter();
         while (true) {
@@ -136,13 +157,12 @@ public class Interpreter {
         }
     }
 
-    private static boolean isNumeric(String str)
+    public static boolean isNumeric(String str)
     {
-        //match a number with optional '-' and decimal.
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
-    private static boolean isWord(String str) {
+    public static boolean isWord(String str) {
         return str.length() >= 2 && str.charAt(0) == '\"';
     }
 
@@ -153,17 +173,8 @@ public class Interpreter {
     private static boolean isBool(String str) {
         return "true".equals(str) || "false".equals(str);
     }
-}
 
-//TODO:Singlton
-class DataTable {
-    private Map<String, MuaObject> dataTable = new TreeMap<>();
-
-    MuaObject getObject(String name) {
-        return dataTable.get(name);
-    }
-
-    void updateObject(String name, MuaObject value) {
-        dataTable.put(name, value);
+    private static boolean isUnbounding(String str) {
+        return str.length() >= 2 && str.charAt(0) == ':';
     }
 }

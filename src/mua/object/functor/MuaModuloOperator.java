@@ -10,15 +10,13 @@ public class MuaModuloOperator extends MuaFunctor {
     private static final int ARGUMENT_NUM = 2;
     private static final double epsilon = 0.0001; //todo: the location should be changed
     public MuaModuloOperator() {
-        super(FUNC_NAME, true);
+        super(FUNC_NAME, ARGUMENT_NUM,true);
     }
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException, MuaDivideOrModuleZeroException {
-        if (argumentList.size() != getArgumentNum()) {
-            throw new MuaArgumentNumNotCompatibleException();
-        }
+        checkArgumentNum(argumentList);
         double op1, op2;
         try {
             op1 = ((MuaNumber) argumentList.get(0)).getValue();

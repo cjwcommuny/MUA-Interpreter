@@ -6,5 +6,6 @@ public enum MuaType {
     list,
     bool,
     functor,
-    none
+    none,
+    message
 }
