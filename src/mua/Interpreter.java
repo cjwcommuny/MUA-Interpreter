@@ -15,6 +15,12 @@ public class Interpreter {
     static public DataTable dataTable = new DataTable();
     private static int instructionIndex = 0; //when a new inst come, it is set to zero
     private static InputStream inputStream = System.in;
+    /*
+    public static Scanner getScanner() {
+        return s;
+    }
+    */
+    private static Scanner s = new Scanner(inputStream);
 
     public static InputStream getInputStream() {
         return inputStream;
@@ -26,8 +32,8 @@ public class Interpreter {
 
     private static PrintStream outpuStream = System.out;
 
-    public static int getInstructionIndex() {
-        return instructionIndex;
+    public static void incrementInstructionIndex() {
+        ++instructionIndex;
     }
 
     private static void setInstructionIndex(int instructionIndex) {
@@ -97,7 +103,7 @@ public class Interpreter {
         return Arrays.stream(result).filter(x -> !x.isEmpty()).toArray(String[]::new);
     }
 
-    private static MuaList constructMuaList(String listStr) throws MuaException {
+    public static MuaList constructMuaList(String listStr) throws MuaException {
         String listStrWithoutBrace = listStr.substring(1, listStr.length() - 1);
         String[] subListArr = strToList(listStrWithoutBrace);
         List<MuaObject> listToConstructMuaList = new ArrayList<>();
@@ -191,10 +197,10 @@ public class Interpreter {
         dataTable.updateObject(MuaIsNameOperator.FUNC_NAME, new MuaIsNameOperator());
         dataTable.updateObject(MuaPrintOperator.FUNC_NAME, new MuaPrintOperator());
         dataTable.updateObject(MuaReadOperator.FUNC_NAME, new MuaReadOperator());
+        dataTable.updateObject(MuaReadListOperator.FUNC_NAME, new MuaReadListOperator());
     }
 
     public static void main(String[] args) {
-        Scanner s = new Scanner(inputStream);
         initInterpreter();
         while (true) {
             outpuStream.print(InteractiveInterface.promptStr);

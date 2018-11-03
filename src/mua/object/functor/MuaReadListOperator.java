@@ -1,16 +1,23 @@
 package mua.object.functor;
 
+import mua.Interpreter;
 import mua.exception.MuaException;
+import mua.object.MuaList;
 import mua.object.MuaObject;
 
+import java.util.Scanner;
+
 public class MuaReadListOperator extends MuaFunctor {
-    //todo: not supported
+    //todo: not fully supported
     public static final String FUNC_NAME = "readlist";
     private static final int ARGUMENT_NUM = 0;
 
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        return null;
+        checkArgumentNum(argumentList);
+        Scanner s = new Scanner(Interpreter.getInputStream());
+        String listStr = '[' + s.nextLine() + ']';
+        return Interpreter.constructMuaList(listStr);
     }
 
     public MuaReadListOperator() {
