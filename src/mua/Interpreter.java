@@ -15,11 +15,7 @@ public class Interpreter {
     static public DataTable dataTable = new DataTable();
     private static int instructionIndex = 0; //when a new inst come, it is set to zero
     private static InputStream inputStream = System.in;
-    /*
-    public static Scanner getScanner() {
-        return s;
-    }
-    */
+
     private static Scanner s = new Scanner(inputStream);
 
     public static InputStream getInputStream() {
