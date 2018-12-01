@@ -1,24 +1,72 @@
-package mua;
+package mua.Parser;
 
 import java.util.*;
 import mua.exception.MuaBraceNotCompatibleException;
+import mua.exception.QuitInterpreterException;
 import mua.exception.MuaException;
+import mua.object.MuaList;
+import mua.object.MuaObject;
 
 public class Parser {
-    private static String[] instructionTokenArr;
+    private static TypeHandler[] typeHandlers = {
+            new NumericTypeHandler(), new WordTypeHandler(), new BoolTypeHandler(), new ListTypeHandler()
+    };
+    private String rawInstruction;
+    private String[] instructionTokenArr;
+    private int currentHandledTokenIndex = 0;
+    private List<String> returnResults; //TODO: should be renamed as printResult ?
 
-    public static ReturnValueFromParser parse(String rawInstruction) throws MuaException {
-        //TODO
+    public Parser(String rawInstruction) {
+        this.rawInstruction = rawInstruction;
+    }
+
+    public List<String> parse() throws MuaException {
         String instructionStr = removeComment(rawInstruction);
         instructionTokenArr = instructionToTokenList(instructionStr);
-        return handleTokens();
+        handleTokensList();
+        return returnResults;
     }
 
-    private static ReturnValueFromParser handleTokens() throws MuaException {
-        //TODO
+    private void handleTokensList() throws MuaException {
+        while (currentHandledTokenIndex < instructionTokenArr.length) {
+            String currentToken = instructionTokenArr[currentHandledTokenIndex];
+            ++currentHandledTokenIndex;
+            MuaObject resultObject = handleSingleToken(currentToken);
+            returnResults.add(resultObject.toString());
+        }
     }
 
-    private static String[] instructionToTokenList(String instruction) throws MuaBraceNotCompatibleException {
+    private MuaObject handleSingleToken(String currentToken) throws MuaException {
+        try {
+            return parseSingleToken(currentToken);
+        } catch (QuitInterpreterException e) {
+            e.setResults(returnResults);
+            throw e;
+        }
+    }
+
+    private MuaObject parseSingleToken(String currentToken) throws QuitInterpreterException {
+        MuaObject objectParsed = parseDataType(currentToken);
+        if (objectParsed != null) {
+            return objectParsed;
+        }
+        return parseFunction();
+    }
+
+    private MuaObject parseFunction() {
+    }
+
+    static MuaObject parseDataType(String currentToken) throws MuaException {
+        for (TypeHandler typeHandler: typeHandlers) {
+            if (typeHandler.isThisType(currentToken)) {
+                return typeHandler.returnObjectOfThisType(currentToken);
+            }
+        }
+        //not match for all types
+        return null;
+    }
+
+    static String[] instructionToTokenList(String instruction) throws MuaBraceNotCompatibleException {
         //TODO: need to be refactored
         String[] strRemoveOuterBrace = splitList(instruction);
         if (strRemoveOuterBrace.length == 1) {
@@ -33,7 +81,7 @@ public class Parser {
         return Arrays.stream(result).filter(x -> !x.isEmpty()).toArray(String[]::new);
     }
 
-    static private String[] splitList(String instruction) throws MuaBraceNotCompatibleException {
+    private static String[] splitList(String instruction) throws MuaBraceNotCompatibleException {
         //TODO: need to be refactored
         int leftBraceIndex = instruction.indexOf('[');
         int rightBraceIndex = instruction.lastIndexOf(']');
@@ -49,7 +97,7 @@ public class Parser {
                 instruction.substring(rightBraceIndex+1)};
     }
 
-    static private String[] concatStrArray(String[][] strArr) {
+    private static String[] concatStrArray(String[][] strArr) {
         //TODO: need to be refactored
         int totalStrNum = 0;
         for (String[] subArr: strArr) {
@@ -72,7 +120,7 @@ public class Parser {
         return instructionWithComment.substring(0, commentBeginnerIndex);
     }
 
-    static private int findCommentBeginner(String instruction) {
+    private static int findCommentBeginner(String instruction) {
         //comment beginner is `//`
         int firstSlashIndex = instruction.indexOf('/');
         if (firstSlashIndex == -1) {
