@@ -12,13 +12,15 @@ public class Interpreter {
     //static public DataTable dataTable = new DataTable();TODO: move to another class
     //private static int instructionIndex = 0; //when a new inst come, it is set to zero TODO: use?
     private static InputStream inputStream = System.in;
+    private static Scanner s = new Scanner(inputStream);
     private static PrintStream outpuStream = System.out;
+
     private static String rawInstruction;
     private static List<String> returnResults;
     private static InterpreterRunningCommand runningCommand;
     private static String parseMessage;
 
-    private static Scanner s = new Scanner(inputStream);
+
 
 //    public static InputStream getInputStream() {
 //        return inputStream;
@@ -84,20 +86,6 @@ public class Interpreter {
 //        }
 //    }
 //
-//    static private String[] strToList(String instruction)
-//            throws MuaBraceNotCompatibleException {
-//        String[] strRemoveOuterBrace = splitList(instruction);
-//        if (strRemoveOuterBrace.length == 1) {
-//            //no brace
-//            return instruction.trim().split("\\s+");
-//        }
-//        String[] leftInst = strRemoveOuterBrace[0].trim().split("\\s+");
-//        String[] rightInst = strRemoveOuterBrace[2].trim().split("\\s+");
-//        String[] result = concatStrArray(new String[][]{leftInst,
-//                new String[]{strRemoveOuterBrace[1]},
-//                rightInst});
-//        return Arrays.stream(result).filter(x -> !x.isEmpty()).toArray(String[]::new);
-//    }
 //
 //    public static MuaList constructMuaList(String listStr) throws MuaException {
 //        String listStrWithoutBrace = listStr.substring(1, listStr.length() - 1);
@@ -121,54 +109,7 @@ public class Interpreter {
 //        return new MuaList(listToConstructMuaList);
 //    }
 //
-//    static private String[] concatStrArray(String[][] strArr) {
-//        int totalStrNum = 0;
-//        for (String[] subArr: strArr) {
-//            totalStrNum += subArr.length;
-//        }
-//        String[] result = new String[totalStrNum];
-//        int currentCopyIndex = 0;
-//        for (int i = 0; i < strArr.length; ++i) {
-//            System.arraycopy(strArr[i], 0, result, currentCopyIndex, strArr[i].length);
-//            currentCopyIndex += strArr[i].length;
-//        }
-//        return result;
-//    }
 //
-//    static private String[] splitList(String instruction) throws MuaBraceNotCompatibleException {
-//        int leftBraceIndex = instruction.indexOf('[');
-//        int rightBraceIndex = instruction.lastIndexOf(']');
-//        if (leftBraceIndex == -1 && rightBraceIndex == -1) {
-//            //not found list
-//            return new String[]{instruction};
-//        } else if (leftBraceIndex == -1 || rightBraceIndex == -1) {
-//            throw new MuaBraceNotCompatibleException();
-//        }
-//        //the list in the return array contains brace
-//        return new String[]{instruction.substring(0, leftBraceIndex),
-//                instruction.substring(leftBraceIndex, rightBraceIndex + 1),
-//                instruction.substring(rightBraceIndex+1)};
-//    }
-//
-//    static private int findCommentBeginner(String instruction) {
-//        int firstSlashIndex = instruction.indexOf('/');
-//        if (firstSlashIndex == -1) {
-//            return -1;
-//        }
-//        if (instruction.charAt(firstSlashIndex + 1) == '/') {
-//            return firstSlashIndex;
-//        } else {
-//            return -1;
-//        }
-//    }
-//
-//    static private String removeComment(String instructionWithComment) {
-//        int commentBeginnerIndex = findCommentBeginner(instructionWithComment);
-//        if (commentBeginnerIndex == -1) {
-//            return instructionWithComment;
-//        }
-//        return instructionWithComment.substring(0, commentBeginnerIndex);
-//    }
 //
 //    static private void initInterpreter() {
 //        //TODO
@@ -232,8 +173,8 @@ public class Interpreter {
         }
     }
 
-    private static void parseInstruction() {
-        ReturnValueFromParser returnValueFromParser = Parser.parse();
+    private static void parseInstruction() throws MuaException {
+        ReturnValueFromParser returnValueFromParser = Parser.parse(rawInstruction);
         runningCommand = returnValueFromParser.getCommand();
         returnResults = returnValueFromParser.getResults();
     }
