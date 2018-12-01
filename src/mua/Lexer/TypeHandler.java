@@ -1,8 +1,6 @@
-package mua.Parser;
+package mua.Lexer;
 
-import mua.exception.MuaBraceNotCompatibleException;
 import mua.exception.MuaException;
-import mua.exception.MuaSymbolNotResolvableException;
 import mua.object.*;
 
 import java.util.ArrayList;
@@ -62,17 +60,33 @@ class ListTypeHandler extends TypeHandler {
 
     private MuaList constructMuaList(String listStr) throws MuaException {
         String listStrWithoutBrace = listStr.substring(1, listStr.length() - 1);
-        //TODO: 穿进去的参数应该包含括号（如果是list的话）
-        String[] subListArr = Parser.instructionToTokenList(listStrWithoutBrace);
-        List<MuaObject> listToConstructMuaList = new ArrayList<>();
-        for (String token: subListArr) {
-            MuaObject muaObject = Parser.parseDataType(token);
-            if (muaObject != null) {
-                listToConstructMuaList.add(muaObject);
-            } else {
-                listToConstructMuaList.add(new MuaInstruction(token));
-            }
-        }
-        return new MuaList(listToConstructMuaList);
+        String[] tokenList = Lexer.instructionToTokenList(listStrWithoutBrace);
+        List<MuaObject> listElements = Lexer.evaluateTokenList(tokenList);
+        return new MuaList(listElements);
+    }
+}
+
+class DereferenceTypeHandler extends TypeHandler {
+    @Override
+    public boolean isThisType(String str) {
+        return str.length() >= 2 && str.charAt(0) == ':';
+    }
+
+    @Override
+    public MuaObject returnObjectOfThisType(String str) throws MuaException {
+        return new MuaDereference(str.substring(1));
+    }
+}
+
+//TODO
+class OperatorTypeHandler extends TypeHandler {
+    @Override
+    public boolean isThisType(String str) {
+        return false;
+    }
+
+    @Override
+    public MuaObject returnObjectOfThisType(String str) throws MuaException {
+        return null;
     }
 }
