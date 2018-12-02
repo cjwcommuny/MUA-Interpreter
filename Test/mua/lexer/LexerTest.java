@@ -1,10 +1,7 @@
 package mua.lexer;
 
 import mua.exception.MuaException;
-import mua.object.MuaDereference;
-import mua.object.MuaList;
-import mua.object.MuaNumber;
-import mua.object.MuaObject;
+import mua.object.*;
 import mua.object.functor.MuaExitOperator;
 import mua.object.functor.MuaMakeOperator;
 import mua.object.functor.MuaReadOperator;
@@ -21,22 +18,22 @@ public class LexerTest {
     public void evaluateTokenList() {
         List<String> tokenList1 =
                 new LinkedList<String>(
-                        Arrays.asList("make", "\"word1", "[make \"word2 read 1, [\"word3 \"word4]]", "exit")
+                        Arrays.asList("make", "\"word1", "[make \"word2 read 1 [\"word3 \"word4]]", "exit")
                 );
         MuaList innerMuaList = new MuaList(new LinkedList<>(
-           Arrays.asList(new MuaDereference("word3"), new MuaDereference("word4"))
+           Arrays.asList(new MuaWord("word3"), new MuaWord("word4"))
         ));
         MuaList outerMuaList = new MuaList(new LinkedList<>(
            Arrays.asList(
                    new MuaMakeOperator(),
-                   new MuaDereference("word2"),
+                   new MuaWord("word2"),
                    new MuaReadOperator(),
                    new MuaNumber(1),
                    innerMuaList
            )
         ));
         MuaObject[] correctObjectList1 = {
-                new MuaMakeOperator(), new MuaDereference("word1"), outerMuaList, new MuaExitOperator()
+                new MuaMakeOperator(), new MuaWord("word1"), outerMuaList, new MuaExitOperator()
         };
         testEvaluateTokenList(tokenList1, correctObjectList1);
     }
@@ -46,12 +43,13 @@ public class LexerTest {
             List<MuaObject> resultObjectList = Lexer.evaluateTokenList(tokenList);
             int i = 0;
             for (MuaObject object: resultObjectList) {
-                assertEquals(expectObjectList[i].getClass(), object.getClass());
+                assertEquals(expectObjectList[i].getClass(), object.getClass()); //TODO: value equal, list equal
                 ++i;
             }
         } catch (MuaException e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
+            fail("every symbol should be recognized");
         }
     }
 

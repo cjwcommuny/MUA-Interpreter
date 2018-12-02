@@ -13,7 +13,7 @@ public class NamespaceStack {
             new MuaEraseOperator(), new MuaExitOperator(), new MuaGreatThanOperator(), new MuaIsNameOperator(),
             new MuaLessThanOperator(), new MuaMakeOperator(), new MuaModuloOperator(), new MuaMultiplyOperator(),
             new MuaNotOperator(), new MuaOrOperator(), new MuaPrintOperator(), new MuaReadListOperator(),
-            new MuaSubOperator(), new MuaThingOperator()
+            new MuaReadOperator(), new MuaSubOperator(), new MuaThingOperator()
     };
     private static NamespaceStack namespaceStackSingleton = new NamespaceStack();
 
