@@ -22,16 +22,18 @@ public class MuaReadOperator extends MuaFunctor {
 
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        checkArgumentNum(argumentList);
-        Scanner s = new Scanner(Interpreter.getInputStream());
-        String token = s.next();
-        //todo: not good practise, handle token in two different places
-        if (Interpreter.isWord(token)) {
-            return new MuaWord(token.substring(1));
-        } else if (Interpreter.isNumeric(token)) {
-            return new MuaNumber(Double.parseDouble(token));
-        } else {
-            throw new MuaValidInputException();
-        }
+        //TODO
+        return null;
+//        checkArgumentNum(argumentList);
+//        Scanner s = new Scanner(Interpreter.getInputStream());
+//        String token = s.next();
+//        //todo: not good practise, handle token in two different places
+//        if (Interpreter.isWord(token)) {
+//            return new MuaWord(token.substring(1));
+//        } else if (Interpreter.isNumeric(token)) {
+//            return new MuaNumber(Double.parseDouble(token));
+//        } else {
+//            throw new MuaValidInputException();
+//        }
     }
 }

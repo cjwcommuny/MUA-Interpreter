@@ -31,7 +31,7 @@ public class MuaMakeOperator extends MuaFunctor {
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        Interpreter.dataTable.updateObject(((MuaWord) name).getValue(), value);
+        //Interpreter.dataTable.updateObject(((MuaWord) name).getValue(), value);
         return new MuaNone();
     }
 }

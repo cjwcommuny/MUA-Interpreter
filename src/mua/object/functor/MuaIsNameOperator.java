@@ -22,7 +22,8 @@ super(FUNC_NAME, ARGUMENT_NUM, true);
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        boolean objectFound = Interpreter.dataTable.getObject(((MuaWord) name).getValue()) != null;
-        return new MuaBool(objectFound);
+        //TODO
+        //boolean objectFound = Interpreter.dataTable.getObject(((MuaWord) name).getValue()) != null;
+        return null; //bad
     }
 }

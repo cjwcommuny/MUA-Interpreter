@@ -1,9 +1,8 @@
 package mua;
 
-import mua.Lexer.Lexer;
+import mua.lexer.Lexer;
 import mua.exception.*;
 import mua.object.*;
-import mua.object.functor.*;
 
 import java.util.*;
 import java.io.*;

@@ -5,7 +5,7 @@ public class MuaDereference extends MuaObject {
 
     public MuaDereference(String word) {
         //TODO
-        super(muaType);
+        super(MuaType.dereference);
         this.word = word;
     }
 }

@@ -15,9 +15,11 @@ public class MuaReadListOperator extends MuaFunctor {
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         checkArgumentNum(argumentList);
-        Scanner s = new Scanner(Interpreter.getInputStream());
-        String listStr = '[' + s.nextLine() + ']';
-        return Interpreter.constructMuaList(listStr);
+        //TODO
+//        Scanner s = new Scanner(Interpreter.getInputStream());
+//        String listStr = '[' + s.nextLine() + ']';
+//        return Interpreter.constructMuaList(listStr);
+        return null;
     }
 
     public MuaReadListOperator() {

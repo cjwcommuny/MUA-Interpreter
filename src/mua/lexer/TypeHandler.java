@@ -1,9 +1,9 @@
-package mua.Lexer;
+package mua.lexer;
 
 import mua.exception.MuaException;
+import mua.namespace.NamespaceStack;
 import mua.object.*;
-
-import java.util.ArrayList;
+import mua.object.functor.MuaFunctor;
 import java.util.List;
 
 public abstract class TypeHandler  {
@@ -60,7 +60,7 @@ class ListTypeHandler extends TypeHandler {
 
     private MuaList constructMuaList(String listStr) throws MuaException {
         String listStrWithoutBrace = listStr.substring(1, listStr.length() - 1);
-        String[] tokenList = Lexer.instructionToTokenList(listStrWithoutBrace);
+        List<String> tokenList = Lexer.instructionToTokenList(listStrWithoutBrace);
         List<MuaObject> listElements = Lexer.evaluateTokenList(tokenList);
         return new MuaList(listElements);
     }
@@ -80,13 +80,20 @@ class DereferenceTypeHandler extends TypeHandler {
 
 //TODO
 class OperatorTypeHandler extends TypeHandler {
+    private MuaFunctor functor;
     @Override
     public boolean isThisType(String str) {
-        return false;
+        functor = null;
+        MuaObject objectGot = NamespaceStack.getInstance().getObject(str);
+        if (objectGot == null || objectGot.getClass().getSuperclass() != MuaFunctor.class) {
+            return false;
+        }
+        functor = (MuaFunctor) objectGot;
+        return true;
     }
 
     @Override
     public MuaObject returnObjectOfThisType(String str) throws MuaException {
-        return null;
+        return functor;
     }
 }

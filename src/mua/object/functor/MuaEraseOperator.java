@@ -28,7 +28,8 @@ public class MuaEraseOperator extends MuaFunctor {
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        Interpreter.dataTable.remove(((MuaWord) name).getValue());
+        //TODO
+        //Interpreter.dataTable.remove(((MuaWord) name).getValue());
         return new MuaNone();
     }
 }

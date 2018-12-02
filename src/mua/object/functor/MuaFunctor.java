@@ -12,6 +12,12 @@ import java.util.List;
 
 public abstract class MuaFunctor extends MuaObject {
     private String funcName;
+
+    @Override
+    public String toString() {
+        return funcName;
+    }
+
     private int argumentNum;
     private boolean isBuiltIn = false;
 
