@@ -24,7 +24,7 @@ public class MuaOrOperator extends MuaFunctor {
             throw new MuaArgumentTypeNotCompatibleException();
         }
     }
-
+    //TODO: merge all similar operation of arithmetic operation
     @Override
     public int getArgumentNum() {
         return ARGUMENT_NUM;

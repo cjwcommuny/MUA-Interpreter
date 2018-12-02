@@ -4,6 +4,7 @@ import mua.Interpreter;
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaDivideOrModuleZeroException;
+import mua.namespace.NamespaceStack;
 import mua.object.MuaNone;
 import mua.object.MuaObject;
 import mua.object.MuaType;
@@ -31,7 +32,9 @@ public class MuaMakeOperator extends MuaFunctor {
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        //Interpreter.dataTable.updateObject(((MuaWord) name).getValue(), value);
+        //TODO: key not found handling
+        //TODO: 使用多态实现make function 和make word
+        NamespaceStack.getInstance().put(((MuaWord) name).getValue(), value);
         return new MuaNone();
     }
 }

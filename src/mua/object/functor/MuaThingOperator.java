@@ -2,6 +2,7 @@ package mua.object.functor;
 
 import mua.Interpreter;
 import mua.exception.*;
+import mua.namespace.NamespaceStack;
 import mua.object.MuaObject;
 import mua.object.MuaType;
 import mua.object.MuaWord;
@@ -26,12 +27,7 @@ public class MuaThingOperator extends MuaFunctor {
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-//        MuaObject resultFound = Interpreter.dataTable.getObject(((MuaWord) name).getValue());
-//        if (resultFound == null) {
-//            throw new MuaObjectNotExistException();
-//        }
-//        return resultFound;
-        //TODO
-        return null;
+        //TODO: error handling
+        return NamespaceStack.getInstance().getObject(((MuaWord) name).getValue());
     }
 }

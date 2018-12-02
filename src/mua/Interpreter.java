@@ -95,8 +95,14 @@ public class Interpreter {
     }
 
     private static void printResults() {
+        if (returnResults == null) {
+            //TODO: should always allocated?
+            return;
+        }
         for (String result: returnResults) {
-            outpuStream.println(result);
+            if (!result.equals("")) {
+                outpuStream.println(result);
+            }
         }
     }
 
@@ -113,5 +119,8 @@ public class Interpreter {
         returnResults = null;
         runningMessage = null;
         previousWorkSuccessful = true;
+    }
+    public static void printConsole(MuaObject object) {
+        outpuStream.println(object);
     }
 }

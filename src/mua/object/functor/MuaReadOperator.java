@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MuaReadOperator extends MuaFunctor {
     public static final String FUNC_NAME = "read";
-    private static final int ARGUMENT_NUM = 0;
+    private static final int ARGUMENT_NUM = 1;
 
     public MuaReadOperator() {
         super(FUNC_NAME, ARGUMENT_NUM, true);
@@ -22,18 +22,8 @@ public class MuaReadOperator extends MuaFunctor {
 
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        //TODO
-        return null;
-//        checkArgumentNum(argumentList);
-//        Scanner s = new Scanner(Interpreter.getInputStream());
-//        String token = s.next();
-//        //todo: not good practise, handle token in two different places
-//        if (Interpreter.isWord(token)) {
-//            return new MuaWord(token.substring(1));
-//        } else if (Interpreter.isNumeric(token)) {
-//            return new MuaNumber(Double.parseDouble(token));
-//        } else {
-//            throw new MuaValidInputException();
-//        }
+        //TODO: error handling
+        checkArgumentNum(argumentList);
+        return argumentList.get(0);
     }
 }

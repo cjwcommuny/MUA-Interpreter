@@ -5,10 +5,10 @@ import mua.object.MuaObject;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Namespace {
-    Map<String, MuaObject> nameObjectMap;
+class Namespace {
+    private Map<String, MuaObject> nameObjectMap;
 
-    public Namespace() {
+    Namespace() {
         //TODO
         this.nameObjectMap = new TreeMap<>();
     }
@@ -19,5 +19,9 @@ public class Namespace {
 
     void put(String name, MuaObject object) {
         nameObjectMap.put(name, object);
+    }
+
+    void remove(String name) {
+        nameObjectMap.remove(name);
     }
 }

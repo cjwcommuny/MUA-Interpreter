@@ -57,4 +57,12 @@ public class NamespaceStack {
     private void push(Namespace namespace) {
         namespaceStack.push(namespace);
     }
+
+    public void remove(String name) {
+        peek().remove(name);
+    }
+
+    public void put(String name, MuaObject object) {
+        peek().put(name, object);
+    }
 }

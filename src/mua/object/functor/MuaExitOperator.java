@@ -1,6 +1,7 @@
 package mua.object.functor;
 
 import mua.exception.MuaException;
+import mua.exception.QuitInterpreterException;
 import mua.object.MuaObject;
 
 public class MuaExitOperator extends MuaFunctor {
@@ -10,7 +11,7 @@ public class MuaExitOperator extends MuaFunctor {
 
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        //TODO
-        return null;
+        //TODO: need to changed
+        throw new QuitInterpreterException(null);
     }
 }

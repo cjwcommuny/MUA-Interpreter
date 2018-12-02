@@ -19,8 +19,8 @@ public class MuaPrintOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         checkArgumentNum(argumentList);
         MuaObject message = argumentList.get(0);
-        //TODO
-        //Interpreter.getOutpuStream().println(message);
+        Interpreter.printConsole(message);
+        //TODO: should be added to result list instead of directly print on console
         return new MuaNone();
     }
 

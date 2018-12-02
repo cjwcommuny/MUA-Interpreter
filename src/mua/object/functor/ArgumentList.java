@@ -7,6 +7,11 @@ import java.util.List;
 
 public class ArgumentList { //type alias
     private List<MuaObject> list;
+
+    public List<MuaObject> getList() {
+        return list;
+    }
+
     public ArgumentList(int initialCapacity) {
         this.list = new ArrayList<>(initialCapacity);
     }
