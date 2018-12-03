@@ -50,16 +50,20 @@ public class InstructionRunner {
 
     private ArgumentList readArguments(int argumentNum) throws MuaException {
         ArgumentList argumentList = new ArgumentList();
-        if (argumentNum == -1) {
-            //read a line
-            while (objectListIterator.hasNext()) {
-                argumentList.add(parseSingleObject(objectListIterator.next()));
-            }
-        } else {
-            for (int i = 0; i < argumentNum; ++i) {
-                //TODO: argument not enough
-                argumentList.add(parseSingleObject(objectListIterator.next()));
-            }
+//        if (argumentNum == -1) {
+//            //read a line
+//            while (objectListIterator.hasNext()) {
+//                argumentList.add(parseSingleObject(objectListIterator.next()));
+//            }
+//        } else {
+//            for (int i = 0; i < argumentNum; ++i) {
+//                //TODO: argument not enough
+//                argumentList.add(parseSingleObject(objectListIterator.next()));
+//            }
+//        }
+        for (int i = 0; i < argumentNum; ++i) {
+            //TODO: argument not enough
+            argumentList.add(parseSingleObject(objectListIterator.next()));
         }
         return argumentList;
     }

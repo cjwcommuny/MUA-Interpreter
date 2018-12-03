@@ -92,7 +92,8 @@ make "anotherNum read 7
 ```
 
 ```
-make "list3 readlist make "anotherList ["word1 5 true]
+make "list3 readlist
+make "anotherList ["word1 5 true]
 :list3
 ```
 

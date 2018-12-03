@@ -12,6 +12,10 @@ public class ArgumentList { //type alias
         return list;
     }
 
+    public ArgumentList(List<MuaObject> list) {
+        this.list = list;
+    }
+
     public ArgumentList(int initialCapacity) {
         this.list = new ArrayList<>(initialCapacity);
     }

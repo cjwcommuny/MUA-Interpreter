@@ -3,6 +3,7 @@ package mua;
 import mua.lexer.Lexer;
 import mua.exception.*;
 import mua.object.*;
+import mua.object.functor.ArgumentList;
 
 import java.util.*;
 import java.io.*;
@@ -20,7 +21,19 @@ public class Interpreter {
     private static String lexerMessage;
     private static String runningMessage;
 
+    public static void setOutputStream(PrintStream outputStream) {
+        Interpreter.outputStream = outputStream;
+    }
+
+    public static void setInputStream(InputStream inputStream) {
+        Interpreter.inputStream = inputStream;
+    }
+
     public static void main(String[] args) {
+        interpret();
+    }
+
+    private static void interpret() {
         initInterpreter();
         while (shouldContinue()) {
             readyForReadingInstruction();
@@ -122,5 +135,23 @@ public class Interpreter {
     }
     public static void printConsole(MuaObject object) {
         outputStream.println(object);
+    }
+    public static ArgumentList readALineAsList() throws MuaException{
+        printContinuePrompt();
+        String line = s.nextLine();
+        Lexer lexer = new Lexer(line);
+        List<MuaObject> objectList = lexer.scan();
+        return new ArgumentList(objectList);
+    }
+
+    public static MuaObject readToken() throws MuaException {
+        printContinuePrompt();
+        String token = s.next();
+        Lexer lexer = new Lexer(token);
+        return lexer.scan().get(0); //TODO: error handling
+    }
+
+    private static void printContinuePrompt() {
+        outputStream.print("..."); // TODO: move position
     }
 }

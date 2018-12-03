@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MuaReadOperator extends MuaFunctor {
     public static final String FUNC_NAME = "read";
-    private static final int ARGUMENT_NUM = 1;
+    private static final int ARGUMENT_NUM = 0;
 
     public MuaReadOperator() {
         super(FUNC_NAME, ARGUMENT_NUM, true);
@@ -24,6 +24,6 @@ public class MuaReadOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         //TODO: error handling
         checkArgumentNum(argumentList);
-        return argumentList.get(0);
+        return Interpreter.readToken();
     }
 }
