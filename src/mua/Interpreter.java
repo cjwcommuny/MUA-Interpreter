@@ -10,7 +10,7 @@ import java.io.*;
 public class Interpreter {
     private static InputStream inputStream = System.in;
     private static Scanner s = new Scanner(inputStream);
-    private static PrintStream outpuStream = System.out;
+    private static PrintStream outputStream = System.out;
 
     private static String rawInstruction;
     private static List<MuaObject> operationList;
@@ -50,7 +50,7 @@ public class Interpreter {
     }
 
     private static void quitInterpreter() {
-        outpuStream.println("Quit MUA.");
+        outputStream.println("Quit MUA.");
     }
 
     private static void initInterpreter() {
@@ -66,7 +66,7 @@ public class Interpreter {
     }
 
     private static void printPrompt() {
-        outpuStream.print(InteractiveInterface.promptStr);
+        outputStream.print(InteractiveInterface.promptStr);
     }
 
     private static void readInstruction() {
@@ -100,18 +100,18 @@ public class Interpreter {
             return;
         }
         for (String result: returnResults) {
-            if (!result.equals("")) {
-                outpuStream.println(result);
+            if (!"".equals(result)) {
+                outputStream.println(result);
             }
         }
     }
 
     private static void printMessage() {
         if (lexerMessage != null) {
-            outpuStream.println(lexerMessage);
+            outputStream.println(lexerMessage);
         }
         if (runningMessage != null) {
-            outpuStream.println(runningMessage);
+            outputStream.println(runningMessage);
         }
     }
 
@@ -121,6 +121,6 @@ public class Interpreter {
         previousWorkSuccessful = true;
     }
     public static void printConsole(MuaObject object) {
-        outpuStream.println(object);
+        outputStream.println(object);
     }
 }
