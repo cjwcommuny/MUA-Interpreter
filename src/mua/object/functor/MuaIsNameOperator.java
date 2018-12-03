@@ -3,6 +3,7 @@ package mua.object.functor;
 import mua.Interpreter;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
+import mua.namespace.NamespaceStack;
 import mua.object.MuaBool;
 import mua.object.MuaObject;
 import mua.object.MuaType;
@@ -22,7 +23,7 @@ super(FUNC_NAME, ARGUMENT_NUM, true);
         if (name.getMuaType() != MuaType.word) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        boolean objectFound = Interpreter.dataTable.getObject(((MuaWord) name).getValue()) != null;
+        boolean objectFound = NamespaceStack.getInstance().getObject(((MuaWord) name).getValue()) != null;
         return new MuaBool(objectFound);
     }
 }

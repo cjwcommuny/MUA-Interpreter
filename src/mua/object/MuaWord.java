@@ -18,25 +18,6 @@ public class MuaWord extends MuaObject implements Comparable<MuaWord>{
         this.value = value;
     }
 
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        String anotherStr = ((MuaWord) obj).getValue();
-        return value.equals(anotherStr);
-    }
-
-    @Override
-    public boolean lessThan(MuaObject obj) throws MuaArgumentTypeNotCompatibleException{
-        if (getClass() != obj.getClass()) {
-            throw new MuaArgumentTypeNotCompatibleException();
-        }
-        return value.compareTo(((MuaWord) obj).getValue()) < 0;
-    }
-    */
-
     @Override
     public int compareTo(MuaWord o) {
         return getValue().compareTo(o.getValue());
@@ -44,6 +25,6 @@ public class MuaWord extends MuaObject implements Comparable<MuaWord>{
 
     @Override
     public String toString() {
-        return getValue();
+        return "\"" + getValue();
     }
 }
