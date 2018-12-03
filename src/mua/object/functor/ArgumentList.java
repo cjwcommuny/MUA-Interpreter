@@ -32,7 +32,7 @@ public class ArgumentList { //type alias
         return list.set(i, o);
     }
 
-    public int size() {
+    int size() {
         return list.size();
     }
 

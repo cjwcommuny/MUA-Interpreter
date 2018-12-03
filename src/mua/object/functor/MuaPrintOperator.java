@@ -1,11 +1,9 @@
 package mua.object.functor;
 
 import mua.Interpreter;
-import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaException;
 import mua.object.MuaNone;
 import mua.object.MuaObject;
-import mua.object.MuaType;
 
 public class MuaPrintOperator extends MuaFunctor {
     public static final String FUNC_NAME = "print";
@@ -19,7 +17,7 @@ public class MuaPrintOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         checkArgumentNum(argumentList);
         MuaObject message = argumentList.get(0);
-        Interpreter.printConsole(message);
+        Interpreter.printOnConsole(message);
         //TODO: should be added to result list instead of directly print on console
         return new MuaNone();
     }

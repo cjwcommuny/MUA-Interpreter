@@ -1,8 +1,8 @@
 package mua.object.functor;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
-import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
+import mua.object.primitive.MuaBool;
 
 public class MuaEqualOperator extends MuaFunctor {
     public static final String FUNC_NAME = "eq";
@@ -13,18 +13,12 @@ public class MuaEqualOperator extends MuaFunctor {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
+            throws MuaArgumentNumNotCompatibleException {
         checkArgumentNum(argumentList);
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);
-
-        if (op1.getMuaType() == MuaType.number && op2.getMuaType() == MuaType.number) {
-            return new MuaBool(((MuaNumber) op1).compareTo((MuaNumber) op2) == 0);
-        } else if (op1.getMuaType() == MuaType.word && op2.getMuaType() == MuaType.word) {
-            return new MuaBool(((MuaWord) op1).compareTo((MuaWord) op2) == 0);
-        } else {
-            throw new MuaArgumentTypeNotCompatibleException();
-        }
+        boolean isEqual = op1.equals(op2);
+        return new MuaBool(isEqual);
     }
 
     @Override

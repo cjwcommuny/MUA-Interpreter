@@ -1,12 +1,11 @@
-package mua.object;
+package mua.object.primitive;
 
-import mua.exception.MuaArgumentTypeNotCompatibleException;
+import mua.object.MuaObject;
 
 public class MuaWord extends MuaObject implements Comparable<MuaWord>{
     private String value;
 
     public MuaWord(String value) {
-        super(MuaType.word);
         this.value = value;
     }
 
@@ -16,6 +15,15 @@ public class MuaWord extends MuaObject implements Comparable<MuaWord>{
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        MuaWord word = (MuaWord) obj;
+        return compareTo(word) == 0;
     }
 
     @Override

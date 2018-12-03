@@ -12,6 +12,6 @@ public class MuaExitOperator extends MuaFunctor {
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         //TODO: need to changed
-        throw new QuitInterpreterException(null);
+        throw new QuitInterpreterException();
     }
 }

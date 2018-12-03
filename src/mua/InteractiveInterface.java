@@ -2,12 +2,64 @@ package mua;//
 // mua.InteractiveInterface
 // Created by cjw on 2018/10/24.
 
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.List;
+import java.util.Scanner;
+
 class InteractiveInterface {
-	static String promptStr = ConsoleColors.GREEN + "MUA> " + ConsoleColors.RESET;
-	static String exitCommand = "exit";
-	static String exitPrompt = "Leave MUA Interpreter.";
-	
-	class ConsoleColors {
+	private static final String GET_INSTRUCTION_PROMPT = ConsoleColors.GREEN + "MUA> " + ConsoleColors.RESET;
+	private static final String CONTINUE_INPUT_PROMPT = "...";
+	private static final String EXIT_PROMPT = "Leave MUA Interpreter.";
+
+    private static InputStream inputStream = System.in;
+    private static Scanner s = new Scanner(inputStream);
+    private static PrintStream outputStream = System.out;
+
+    static void quitInterpreter() {
+        outputStream.println(EXIT_PROMPT);
+    }
+
+    private static void printInstructionPrompt() {
+        outputStream.print(GET_INSTRUCTION_PROMPT);
+    }
+
+    private static void printContinuePrompt() {
+        outputStream.print(CONTINUE_INPUT_PROMPT);
+    }
+
+    static String getNextInstruction() {
+        printInstructionPrompt();
+        return s.nextLine();
+    }
+
+    static void printResults(List<String> returnResults) {
+        for (String result: returnResults) {
+            if (!"".equals(result)) {
+                outputStream.println(result);
+            }
+        }
+    }
+
+    static void print(Object message) {
+        if (message != null && !"".equals(message.toString())) {
+            outputStream.println(message);
+        }
+    }
+
+    static String getNextLine() {
+        printContinuePrompt();
+        return s.nextLine();
+    }
+
+    static String getNextToken() {
+        printContinuePrompt();
+
+        //handle newline symbol
+        return s.nextLine().trim();
+    }
+
+    class ConsoleColors {
 		// Reset
 		public static final String RESET = "\033[0m";  // Text Reset
 

@@ -4,6 +4,7 @@ import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaDivideOrModuleZeroException;
 import mua.object.*;
+import mua.object.primitive.MuaNumber;
 
 public class MuaDivideOperator extends MuaFunctor {
     public static final String FUNC_NAME = "div";

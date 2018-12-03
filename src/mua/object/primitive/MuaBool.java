@@ -1,12 +1,11 @@
-package mua.object;
+package mua.object.primitive;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import mua.object.MuaObject;
 
 public class MuaBool extends MuaObject {
     private boolean value;
 
     public MuaBool(boolean value) {
-        super(MuaType.bool);
         this.value = value;
     }
 
@@ -20,7 +19,7 @@ public class MuaBool extends MuaObject {
 
     @Override
     public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         boolean anotherBool = ((MuaBool) obj).getValue();

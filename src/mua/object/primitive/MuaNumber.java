@@ -1,13 +1,12 @@
-package mua.object;
+package mua.object.primitive;
 
-import mua.exception.MuaArgumentTypeNotCompatibleException;
+import mua.object.MuaObject;
 
 public class MuaNumber extends MuaObject implements Comparable<MuaNumber> {
     private double value;
     //private final static double EPSILON = 0.001; //need to change
 
     public MuaNumber(double value) {
-        super(MuaType.number);
         this.value = value;
     }
 
@@ -19,24 +18,14 @@ public class MuaNumber extends MuaObject implements Comparable<MuaNumber> {
         this.value = value;
     }
 
-    /*
     @Override
     public boolean equals(Object obj) {
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         double anotherNum = ((MuaNumber) obj).getValue();
-        return value == anotherNum; //might need to be change
+        return value == anotherNum; //TODO: handle float number comparison
     }
-
-    @Override
-    public boolean lessThan(MuaObject obj) throws MuaArgumentTypeNotCompatibleException{
-        if (getClass() != obj.getClass()) {
-            throw new MuaArgumentTypeNotCompatibleException();
-        }
-        return value < ((MuaNumber) obj).getValue();
-    }
-    */
 
     @Override
     public int compareTo(MuaNumber o) {

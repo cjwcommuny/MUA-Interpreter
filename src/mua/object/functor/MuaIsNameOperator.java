@@ -1,13 +1,11 @@
 package mua.object.functor;
 
-import mua.Interpreter;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
 import mua.namespace.NamespaceStack;
-import mua.object.MuaBool;
+import mua.object.primitive.MuaBool;
 import mua.object.MuaObject;
-import mua.object.MuaType;
-import mua.object.MuaWord;
+import mua.object.primitive.MuaWord;
 
 public class MuaIsNameOperator extends MuaFunctor {
     public static final String FUNC_NAME = "isname";
@@ -20,7 +18,7 @@ super(FUNC_NAME, ARGUMENT_NUM, true);
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         checkArgumentNum(argumentList);
         MuaObject name = argumentList.get(0);
-        if (name.getMuaType() != MuaType.word) {
+        if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
         boolean objectFound = NamespaceStack.getInstance().getObject(((MuaWord) name).getValue()) != null;

@@ -2,10 +2,8 @@ package mua.object.functor;
 
 import mua.Interpreter;
 import mua.exception.MuaException;
-import mua.object.MuaList;
+import mua.object.primitive.MuaList;
 import mua.object.MuaObject;
-
-import java.util.Scanner;
 
 public class MuaReadListOperator extends MuaFunctor {
     //todo: not fully supported

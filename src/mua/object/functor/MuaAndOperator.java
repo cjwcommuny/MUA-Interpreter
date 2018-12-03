@@ -3,6 +3,7 @@ package mua.object.functor;
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
+import mua.object.primitive.MuaBool;
 
 public class MuaAndOperator extends MuaFunctor {
     public static final String FUNC_NAME = "and";

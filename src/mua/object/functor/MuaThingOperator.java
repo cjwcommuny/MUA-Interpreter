@@ -1,11 +1,9 @@
 package mua.object.functor;
 
-import mua.Interpreter;
 import mua.exception.*;
 import mua.namespace.NamespaceStack;
 import mua.object.MuaObject;
-import mua.object.MuaType;
-import mua.object.MuaWord;
+import mua.object.primitive.MuaWord;
 
 public class MuaThingOperator extends MuaFunctor {
     public static final String FUNC_NAME = "thing";
@@ -24,7 +22,7 @@ public class MuaThingOperator extends MuaFunctor {
             throws MuaException {
         checkArgumentNum(argumentList);
         MuaObject name = argumentList.get(0);
-        if (name.getMuaType() != MuaType.word) {
+        if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
         //TODO: error handling

@@ -66,6 +66,7 @@ mod 5 2
 ```
 
 ```
+eq 7 7
 eq "word1 "word1
 eq "word1 "word2
 eq "word1 "word10
@@ -87,7 +88,8 @@ or true false
 ### IO 操作
 
 ```
-make "anotherNum read 7
+make "anotherNum read
+7
 :anotherNum
 ```
 

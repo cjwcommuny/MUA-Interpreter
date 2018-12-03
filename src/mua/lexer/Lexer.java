@@ -5,6 +5,7 @@ import mua.exception.MuaBraceNotCompatibleException;
 import mua.exception.MuaSymbolNotResolvableException;
 import mua.exception.MuaException;
 import mua.object.MuaObject;
+import sun.jvm.hotspot.ui.ObjectListPanel;
 
 public class Lexer {
     private String rawInstruction;
@@ -86,13 +87,13 @@ public class Lexer {
     static List<MuaObject> evaluateTokenList(List<String> instructionTokenArr) throws MuaException {
         List<MuaObject> objectList = new LinkedList<>();
         for (String token: instructionTokenArr) {
-            MuaObject object = evaluateToken(token);
-            objectList.add(object);
+            List<MuaObject> currentObjectList = evaluateToken(token); //TODO: bad variable name
+            objectList.addAll(currentObjectList);
         }
         return objectList;
     }
 
-    private static MuaObject evaluateToken(String token) throws MuaException {
+    private static List<MuaObject> evaluateToken(String token) throws MuaException {
         for (TypeHandler typeHandler: typeHandlers) {
             if (typeHandler.isThisType(token)) {
                 return typeHandler.returnObjectOfThisType(token);

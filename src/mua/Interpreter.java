@@ -6,28 +6,11 @@ import mua.object.*;
 import mua.object.functor.ArgumentList;
 
 import java.util.*;
-import java.io.*;
 
 public class Interpreter {
-    private static InputStream inputStream = System.in;
-    private static Scanner s = new Scanner(inputStream);
-    private static PrintStream outputStream = System.out;
-
-    private static String rawInstruction;
-    private static List<MuaObject> operationList;
-    private static List<String> returnResults;
-    private static boolean previousWorkSuccessful = true;
     private static boolean shouldInterpreterContinueLoop = true;
     private static String lexerMessage;
     private static String runningMessage;
-
-    public static void setOutputStream(PrintStream outputStream) {
-        Interpreter.outputStream = outputStream;
-    }
-
-    public static void setInputStream(InputStream inputStream) {
-        Interpreter.inputStream = inputStream;
-    }
 
     public static void main(String[] args) {
         interpret();
@@ -36,34 +19,34 @@ public class Interpreter {
     private static void interpret() {
         initInterpreter();
         while (shouldContinue()) {
-            readyForReadingInstruction();
-            readInstruction();
-            scanInstruction();
-            runOperations();
-            handleOutput();
-            clearAfterInstruction();
+            try {
+                readyForReadingInstruction();
+                String rawInstruction = readInstruction();
+                List<MuaObject> operationList = scanInstruction(rawInstruction);
+                runOperations(operationList);
+            } catch (MuaException e) {
+                //exception has been handled
+            } finally {
+                printMessage();
+                clearAfterAnInstruction();
+            }
         }
         quitInterpreter();
     }
 
-    private static void runOperations() {
-        if (!previousWorkSuccessful) {
-            return;
-        }
+    private static void runOperations(List<MuaObject> operationList) throws MuaException {
         try {
             InstructionRunner instructionRunner = new InstructionRunner(operationList);
-            returnResults = instructionRunner.run();
+            instructionRunner.run();
         } catch (QuitInterpreterException e) {
-            returnResults = e.getResults();
             shouldInterpreterContinueLoop = false;
         } catch (MuaException e) {
             runningMessage = e.getMessage();
-            previousWorkSuccessful = false;
         }
     }
 
     private static void quitInterpreter() {
-        outputStream.println("Quit MUA.");
+        InteractiveInterface.quitInterpreter();
     }
 
     private static void initInterpreter() {
@@ -75,83 +58,47 @@ public class Interpreter {
     }
 
     private static void readyForReadingInstruction() {
-        printPrompt();
+        //empty for now
     }
 
-    private static void printPrompt() {
-        outputStream.print(InteractiveInterface.promptStr);
+    private static String readInstruction() {
+        return InteractiveInterface.getNextInstruction();
     }
 
-    private static void readInstruction() {
-        if (!previousWorkSuccessful) {
-            return;
-        }
-        rawInstruction = s.nextLine();
-    }
-
-    private static void scanInstruction() {
-        if (!previousWorkSuccessful) {
-            return;
-        }
+    private static List<MuaObject> scanInstruction(String rawInstruction) throws MuaException {
         try {
             Lexer lexer = new Lexer(rawInstruction);
-            operationList = lexer.scan();
+            return lexer.scan();
         } catch (MuaException e) {
             lexerMessage = e.getMessage();
-            previousWorkSuccessful = false;
-        }
-    }
-
-    private static void handleOutput() {
-        printResults();
-        printMessage();
-    }
-
-    private static void printResults() {
-        if (returnResults == null) {
-            //TODO: should always allocated?
-            return;
-        }
-        for (String result: returnResults) {
-            if (!"".equals(result)) {
-                outputStream.println(result);
-            }
+            throw e;
         }
     }
 
     private static void printMessage() {
-        if (lexerMessage != null) {
-            outputStream.println(lexerMessage);
-        }
-        if (runningMessage != null) {
-            outputStream.println(runningMessage);
-        }
+        InteractiveInterface.print(lexerMessage);
+        InteractiveInterface.print(runningMessage);
     }
 
-    static private void clearAfterInstruction() {
-        returnResults = null;
+    static private void clearAfterAnInstruction() {
+        lexerMessage = null;
         runningMessage = null;
-        previousWorkSuccessful = true;
     }
-    public static void printConsole(MuaObject object) {
-        outputStream.println(object);
+
+    public static void printOnConsole(MuaObject object) {
+        InteractiveInterface.print(object);
     }
+
     public static ArgumentList readALineAsList() throws MuaException{
-        printContinuePrompt();
-        String line = s.nextLine();
+        String line = InteractiveInterface.getNextLine();
         Lexer lexer = new Lexer(line);
         List<MuaObject> objectList = lexer.scan();
         return new ArgumentList(objectList);
     }
 
     public static MuaObject readToken() throws MuaException {
-        printContinuePrompt();
-        String token = s.next();
+        String token = InteractiveInterface.getNextToken();
         Lexer lexer = new Lexer(token);
         return lexer.scan().get(0); //TODO: error handling
-    }
-
-    private static void printContinuePrompt() {
-        outputStream.print("..."); // TODO: move position
     }
 }

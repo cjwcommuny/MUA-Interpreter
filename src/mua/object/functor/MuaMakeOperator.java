@@ -1,14 +1,11 @@
 package mua.object.functor;
 
-import mua.Interpreter;
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.exception.MuaDivideOrModuleZeroException;
 import mua.namespace.NamespaceStack;
 import mua.object.MuaNone;
 import mua.object.MuaObject;
-import mua.object.MuaType;
-import mua.object.MuaWord;
+import mua.object.primitive.MuaWord;
 
 public class MuaMakeOperator extends MuaFunctor {
     public static final String FUNC_NAME = "make";
@@ -29,7 +26,7 @@ public class MuaMakeOperator extends MuaFunctor {
         checkArgumentNum(argumentList);
         MuaObject name = argumentList.get(0);
         MuaObject value = argumentList.get(1);
-        if (name.getMuaType() != MuaType.word) {
+        if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
         //TODO: key not found handling

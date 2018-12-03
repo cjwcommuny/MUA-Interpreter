@@ -3,6 +3,7 @@ package mua.object.functor;
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
+import mua.object.primitive.MuaNumber;
 
 public class MuaSubOperator extends MuaFunctor {
     public static final String FUNC_NAME = "sub";

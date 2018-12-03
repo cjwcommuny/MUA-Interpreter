@@ -1,14 +1,11 @@
 package mua.object.functor;
 
-import mua.Interpreter;
-import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
 import mua.namespace.NamespaceStack;
 import mua.object.MuaNone;
 import mua.object.MuaObject;
-import mua.object.MuaType;
-import mua.object.MuaWord;
+import mua.object.primitive.MuaWord;
 
 public class MuaEraseOperator extends MuaFunctor {
     public static final String FUNC_NAME = "erase";
@@ -27,7 +24,7 @@ public class MuaEraseOperator extends MuaFunctor {
         checkArgumentNum(argumentList);
         MuaObject name = argumentList.get(0);
         //TODO:change to try-catch block
-        if (name.getMuaType() != MuaType.word) {
+        if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
         //TODO: key not found

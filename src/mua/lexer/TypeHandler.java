@@ -4,11 +4,23 @@ import mua.exception.MuaException;
 import mua.namespace.NamespaceStack;
 import mua.object.*;
 import mua.object.functor.MuaFunctor;
+import mua.object.functor.MuaThingOperator;
+import mua.object.primitive.MuaBool;
+import mua.object.primitive.MuaList;
+import mua.object.primitive.MuaNumber;
+import mua.object.primitive.MuaWord;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public abstract class TypeHandler  {
     public abstract boolean isThisType(String str);
-    public abstract MuaObject returnObjectOfThisType(String str) throws MuaException;
+    public List<MuaObject> returnObjectOfThisType(String str) throws MuaException {
+        List<MuaObject> returnList = new LinkedList<>();
+        addReturnObjectToList(returnList, str);
+        return returnList;
+    }
+    protected abstract void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException;
 }
 
 class NumericTypeHandler extends TypeHandler {
@@ -18,8 +30,8 @@ class NumericTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) {
-        return new MuaNumber(Double.parseDouble(str));
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(new MuaNumber(Double.parseDouble(str)));
     }
 }
 
@@ -30,8 +42,8 @@ class WordTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) {
-        return new MuaWord(str.substring(1));
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(new MuaWord(str.substring(1)));
     }
 }
 
@@ -42,8 +54,8 @@ class BoolTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) {
-        return new MuaBool(Boolean.parseBoolean(str));
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(new MuaBool(Boolean.parseBoolean(str)));
     }
 }
 
@@ -54,8 +66,8 @@ class ListTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) throws MuaException {
-        return constructMuaList(str);
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(constructMuaList(str));
     }
 
     private MuaList constructMuaList(String listStr) throws MuaException {
@@ -73,8 +85,9 @@ class DereferenceTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) throws MuaException {
-        return new MuaDereference(str.substring(1));
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(new MuaThingOperator());
+        returnList.add(new MuaWord(str.substring(1)));
     }
 }
 
@@ -93,7 +106,7 @@ class OperatorTypeHandler extends TypeHandler {
     }
 
     @Override
-    public MuaObject returnObjectOfThisType(String str) throws MuaException {
-        return functor;
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+        returnList.add(functor);
     }
 }

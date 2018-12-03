@@ -2,7 +2,7 @@ package mua.object.functor;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.object.MuaBool;
+import mua.object.primitive.MuaBool;
 import mua.object.MuaObject;
 
 public class MuaNotOperator extends MuaFunctor {
