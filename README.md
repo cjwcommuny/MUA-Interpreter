@@ -30,7 +30,7 @@ java mua.InterpreterController
 
 ## 运行效果
 
-![屏幕快照 2018-12-05 18.50.23](images/屏幕快照 2018-12-05 18.50.23.png)
+![RunningImage](images/RunningImage.png)
 
 ## 实现方法
 
