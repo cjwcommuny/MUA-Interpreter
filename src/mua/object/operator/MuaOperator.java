@@ -1,17 +1,10 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
-import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.exception.MuaDivideOrModuleZeroException;
 import mua.exception.MuaException;
 import mua.object.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
-public abstract class MuaFunctor extends MuaObject {
+public abstract class MuaOperator extends MuaObject {
     private String funcName;
     private int argumentNum;
     private boolean isBuiltIn = false;
@@ -23,7 +16,7 @@ public abstract class MuaFunctor extends MuaObject {
         return funcName;
     }
 
-    public MuaFunctor(String funcName, int argumentNum, boolean isBuiltIn) {
+    public MuaOperator(String funcName, int argumentNum, boolean isBuiltIn) {
         this.funcName = funcName;
         this.argumentNum = argumentNum;
         this.isBuiltIn = isBuiltIn;

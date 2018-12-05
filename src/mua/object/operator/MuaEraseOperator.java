@@ -1,4 +1,4 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
@@ -7,7 +7,7 @@ import mua.object.MuaNone;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaWord;
 
-public class MuaEraseOperator extends MuaFunctor {
+public class MuaEraseOperator extends MuaOperator {
     public static final String FUNC_NAME = "erase";
     private static final int ARGUMENT_NUM = 1;
     public MuaEraseOperator() {

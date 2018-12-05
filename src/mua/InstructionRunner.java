@@ -3,8 +3,8 @@ package mua;
 import mua.exception.MuaException;
 import mua.exception.QuitInterpreterException;
 import mua.object.MuaObject;
-import mua.object.functor.ArgumentList;
-import mua.object.functor.MuaFunctor;
+import mua.object.operator.ArgumentList;
+import mua.object.operator.MuaOperator;
 
 import java.util.Iterator;
 import java.util.List;
@@ -22,15 +22,15 @@ public class InstructionRunner {
         while (objectListIterator.hasNext()) {
             MuaObject currentObject = objectListIterator.next();
             MuaObject resultObject = parseSingleObject(currentObject);
-            Interpreter.printOnConsole(resultObject);
+            InterpreterController.printOnConsole(resultObject);
         }
     }
 
     private MuaObject parseSingleObject(MuaObject currentObject) throws MuaException {
         try {
-            boolean objectIsFunctor = currentObject.getClass().getSuperclass() == MuaFunctor.class;
+            boolean objectIsFunctor = currentObject.getClass().getSuperclass() == MuaOperator.class;
             if (objectIsFunctor) {
-                MuaFunctor functor = (MuaFunctor) currentObject;
+                MuaOperator functor = (MuaOperator) currentObject;
                 ArgumentList argumentList = readArguments(functor.getArgumentNum());
                 return functor.operate(argumentList);
             } else {

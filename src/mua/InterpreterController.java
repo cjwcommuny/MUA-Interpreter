@@ -3,11 +3,11 @@ package mua;
 import mua.lexer.Lexer;
 import mua.exception.*;
 import mua.object.*;
-import mua.object.functor.ArgumentList;
+import mua.object.operator.ArgumentList;
 
 import java.util.*;
 
-public class Interpreter {
+public class InterpreterController {
     private static boolean shouldInterpreterContinueLoop = true;
     private static String lexerMessage;
     private static String runningMessage;
@@ -46,7 +46,7 @@ public class Interpreter {
     }
 
     private static void quitInterpreter() {
-        InteractiveInterface.quitInterpreter();
+        FrontEnd.quitInterpreter();
     }
 
     private static void initInterpreter() {
@@ -62,7 +62,7 @@ public class Interpreter {
     }
 
     private static String readInstruction() {
-        return InteractiveInterface.getNextInstruction();
+        return FrontEnd.getNextInstruction();
     }
 
     private static List<MuaObject> scanInstruction(String rawInstruction) throws MuaException {
@@ -76,8 +76,8 @@ public class Interpreter {
     }
 
     private static void printMessage() {
-        InteractiveInterface.print(lexerMessage);
-        InteractiveInterface.print(runningMessage);
+        FrontEnd.print(lexerMessage);
+        FrontEnd.print(runningMessage);
     }
 
     static private void clearAfterAnInstruction() {
@@ -86,18 +86,18 @@ public class Interpreter {
     }
 
     public static void printOnConsole(MuaObject object) {
-        InteractiveInterface.print(object);
+        FrontEnd.print(object);
     }
 
     public static ArgumentList readALineAsList() throws MuaException{
-        String line = InteractiveInterface.getNextLine();
+        String line = FrontEnd.getNextLine();
         Lexer lexer = new Lexer(line);
         List<MuaObject> objectList = lexer.scan();
         return new ArgumentList(objectList);
     }
 
     public static MuaObject readToken() throws MuaException {
-        String token = InteractiveInterface.getNextToken();
+        String token = FrontEnd.getNextToken();
         Lexer lexer = new Lexer(token);
         return lexer.scan().get(0); //TODO: error handling
     }

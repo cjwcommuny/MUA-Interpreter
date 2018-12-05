@@ -1,4 +1,4 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
@@ -7,7 +7,7 @@ import mua.object.primitive.MuaBool;
 import mua.object.primitive.MuaNumber;
 import mua.object.primitive.MuaWord;
 
-public class MuaLessThanOperator extends MuaFunctor {
+public class MuaLessThanOperator extends MuaOperator {
     public static final String FUNC_NAME = "lt";
     private static final int ARGUMENT_NUM = 2;
     public MuaLessThanOperator() {

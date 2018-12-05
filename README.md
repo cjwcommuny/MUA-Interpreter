@@ -31,7 +31,78 @@
 
 ## 实现方法
 
+### 总设计
 
+#### 类的协作关系
+
+![MuaInterpreter](images/MuaInterpreter.png)
+
+#### 类型系统
+
+
+
+### 具体设计
+
+#### InterpreterController
+
+核心组件是 `InterpreterController` ，负责整个流程，主要流程如下：
+
+```java
+interpret() {
+    initInterpreter()
+    while (shouldContinue()) {
+        readyForReadingInstruction()
+        readInstruction() //use FrontEnd
+        scanInstruction() //use Parser
+        runOperations() //use Runner
+        printMeaasge() //use FrontEnd
+        clearAfterALoop()
+    }
+}
+```
+
+#### Lexer
+
+`Lexer` 负责解析 `String instruction`，将其解析为 `List<MuaObject>` 以方便 `Runner` 去执行。
+
+`Lexer` 的 `scan()` 函数流程大致如下：
+
+```java
+scan() {
+    removeComment() //String -> String
+    convertInstructionToTokenList() //String -> List<String>
+    evaluateTokenListToObjectList() //List<String> -> List<MuaObject>
+}
+```
+
+其中 `evaluateTokenListToObjectList()` 需要对每个 token 判断类型，从而转为 `MuaObject` ，这里使用了表驱动方法，避免了大量的 `if-else` 语句块，并且增加了可扩展性。
+
+```
+evaluateTokenListToObjectList() {
+    for token in TokenList {
+        for type in TypeArray {
+            if (token belongs to type) {
+                constructCorrespondingMuaObject()
+            }
+        }
+    }
+}
+```
+
+#### Runner
+
+`Runner` 将 `List<MuaObject>` 对应的指令解析执行，并返回 `MuaObject` 结果。
+
+```java
+run() {
+    while (objectListIterator.hasNext()) {
+        evaluateCurrentObject()
+        sendResultToControllerAndPrint()
+    }
+}
+```
+
+当 `evaluateCurrentObject()` 读取到一个函数对象 (比如 `make` 命令) 时，它会用 `objectListIterator.next()` 读取之后的若干个参数传入函数对象中处理。
 
 ## 测试样例示例
 
@@ -113,5 +184,7 @@ exit
 
 ## 可改进的地方
 
-
+* 错误处理
+* 架构设计与解耦合
+* 其他功能
 

@@ -2,9 +2,9 @@ package mua.lexer;
 
 import mua.exception.MuaException;
 import mua.object.*;
-import mua.object.functor.MuaExitOperator;
-import mua.object.functor.MuaMakeOperator;
-import mua.object.functor.MuaReadOperator;
+import mua.object.operator.MuaExitOperator;
+import mua.object.operator.MuaMakeOperator;
+import mua.object.operator.MuaReadOperator;
 import mua.object.primitive.MuaList;
 import mua.object.primitive.MuaNumber;
 import mua.object.primitive.MuaWord;

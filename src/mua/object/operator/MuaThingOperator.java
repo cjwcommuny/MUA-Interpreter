@@ -1,11 +1,11 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.*;
 import mua.namespace.NamespaceStack;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaWord;
 
-public class MuaThingOperator extends MuaFunctor {
+public class MuaThingOperator extends MuaOperator {
     public static final String FUNC_NAME = "thing";
     private static final int ARGUMENT_NUM = 1;
     public MuaThingOperator() {

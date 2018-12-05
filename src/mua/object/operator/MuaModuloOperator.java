@@ -1,20 +1,22 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
+import mua.exception.MuaDivideOrModuleZeroException;
 import mua.object.*;
 import mua.object.primitive.MuaNumber;
 
-public class MuaAddOperator extends MuaFunctor {
-    public static final String FUNC_NAME = "add";
+public class MuaModuloOperator extends MuaOperator {
+    public static final String FUNC_NAME = "mod";
     private static final int ARGUMENT_NUM = 2;
-    public MuaAddOperator() {
+    private static final double epsilon = 0.0001; //todo: the location should be changed
+    public MuaModuloOperator() {
         super(FUNC_NAME, ARGUMENT_NUM,true);
     }
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
+            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException, MuaDivideOrModuleZeroException {
         checkArgumentNum(argumentList);
         double op1, op2;
         try {
@@ -23,7 +25,10 @@ public class MuaAddOperator extends MuaFunctor {
         } catch (ClassCastException e) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        return new MuaNumber(op1 + op2);
+        if (op2 < epsilon && op2 > -epsilon) {
+            throw new MuaDivideOrModuleZeroException();
+        }
+        return new MuaNumber(op1 % op2);
     }
 
     @Override
@@ -31,3 +36,4 @@ public class MuaAddOperator extends MuaFunctor {
         return ARGUMENT_NUM;
     }
 }
+

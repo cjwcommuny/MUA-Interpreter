@@ -1,4 +1,4 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
@@ -7,7 +7,7 @@ import mua.object.MuaNone;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaWord;
 
-public class MuaMakeOperator extends MuaFunctor {
+public class MuaMakeOperator extends MuaOperator {
     public static final String FUNC_NAME = "make";
     private static final int ARGUMENT_NUM = 2;
     public MuaMakeOperator() {

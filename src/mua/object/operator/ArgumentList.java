@@ -1,4 +1,4 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.object.MuaObject;
 

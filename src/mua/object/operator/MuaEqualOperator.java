@@ -1,10 +1,10 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.object.*;
 import mua.object.primitive.MuaBool;
 
-public class MuaEqualOperator extends MuaFunctor {
+public class MuaEqualOperator extends MuaOperator {
     public static final String FUNC_NAME = "eq";
     private static final int ARGUMENT_NUM = 2;
     public MuaEqualOperator() {

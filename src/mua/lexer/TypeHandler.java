@@ -3,8 +3,8 @@ package mua.lexer;
 import mua.exception.MuaException;
 import mua.namespace.NamespaceStack;
 import mua.object.*;
-import mua.object.functor.MuaFunctor;
-import mua.object.functor.MuaThingOperator;
+import mua.object.operator.MuaOperator;
+import mua.object.operator.MuaThingOperator;
 import mua.object.primitive.MuaBool;
 import mua.object.primitive.MuaList;
 import mua.object.primitive.MuaNumber;
@@ -93,15 +93,15 @@ class DereferenceTypeHandler extends TypeHandler {
 
 //TODO
 class OperatorTypeHandler extends TypeHandler {
-    private MuaFunctor functor;
+    private MuaOperator functor;
     @Override
     public boolean isThisType(String str) {
         functor = null;
         MuaObject objectGot = NamespaceStack.getInstance().getObject(str);
-        if (objectGot == null || objectGot.getClass().getSuperclass() != MuaFunctor.class) {
+        if (objectGot == null || objectGot.getClass().getSuperclass() != MuaOperator.class) {
             return false;
         }
-        functor = (MuaFunctor) objectGot;
+        functor = (MuaOperator) objectGot;
         return true;
     }
 

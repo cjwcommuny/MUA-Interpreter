@@ -1,10 +1,10 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaException;
 import mua.exception.QuitInterpreterException;
 import mua.object.MuaObject;
 
-public class MuaExitOperator extends MuaFunctor {
+public class MuaExitOperator extends MuaOperator {
     public MuaExitOperator() {
         super("exit", 0, true);
     }

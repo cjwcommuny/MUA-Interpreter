@@ -1,31 +1,30 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.object.*;
 import mua.object.primitive.MuaBool;
+import mua.object.MuaObject;
 
-public class MuaOrOperator extends MuaFunctor {
-    public static final String FUNC_NAME = "or";
-    private static final int ARGUMENT_NUM = 2;
-    public MuaOrOperator() {
-    super(FUNC_NAME, ARGUMENT_NUM,true);
+public class MuaNotOperator extends MuaOperator {
+    public static final String FUNC_NAME = "not";
+    private static final int ARGUMENT_NUM = 1;
+    public MuaNotOperator() {
+        super(FUNC_NAME, ARGUMENT_NUM,true);
     }
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
         checkArgumentNum(argumentList);
-        boolean op1, op2;
+        boolean op;
         try {
-            op1 = ((MuaBool) argumentList.get(0)).getValue();
-            op2 = ((MuaBool) argumentList.get(1)).getValue();
-            return new MuaBool(op1 || op2);
+            op = ((MuaBool) argumentList.get(0)).getValue();
+            return new MuaBool(!op);
         } catch (ClassCastException e) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
     }
-    //TODO: merge all similar operation of arithmetic operation
+
     @Override
     public int getArgumentNum() {
         return ARGUMENT_NUM;

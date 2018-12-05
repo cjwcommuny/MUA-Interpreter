@@ -1,13 +1,10 @@
-package mua.object.functor;
+package mua.object.operator;
 
-import mua.Interpreter;
+import mua.InterpreterController;
 import mua.exception.MuaException;
-import mua.exception.MuaValidInputException;
 import mua.object.*;
 
-import java.util.Scanner;
-
-public class MuaReadOperator extends MuaFunctor {
+public class MuaReadOperator extends MuaOperator {
     public static final String FUNC_NAME = "read";
     private static final int ARGUMENT_NUM = 0;
 
@@ -24,6 +21,6 @@ public class MuaReadOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         //TODO: error handling
         checkArgumentNum(argumentList);
-        return Interpreter.readToken();
+        return InterpreterController.readToken();
     }
 }

@@ -1,14 +1,14 @@
 package mua.namespace;
 
 import mua.object.MuaObject;
-import mua.object.functor.*;
+import mua.object.operator.*;
 
 import java.util.Stack;
 
 //TODO: singlton?
 public class NamespaceStack {
     private Stack<Namespace> namespaceStack = new Stack<>();
-    private static MuaFunctor[] muaFunctors = new MuaFunctor[]{
+    private static MuaOperator[] muaOperators = new MuaOperator[]{
             new MuaAddOperator(), new MuaAndOperator(), new MuaDivideOperator(), new MuaEqualOperator(),
             new MuaEraseOperator(), new MuaExitOperator(), new MuaGreatThanOperator(), new MuaIsNameOperator(),
             new MuaLessThanOperator(), new MuaMakeOperator(), new MuaModuloOperator(), new MuaMultiplyOperator(),
@@ -32,7 +32,7 @@ public class NamespaceStack {
 
     private void loadFunctor() {
         Namespace namespace = namespaceStack.peek();
-        for (MuaFunctor functor: muaFunctors) {
+        for (MuaOperator functor: muaOperators) {
             namespace.put(functor.toString(), functor);
         }
     }

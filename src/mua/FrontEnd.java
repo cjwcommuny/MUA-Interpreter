@@ -1,5 +1,5 @@
 package mua;//
-// mua.InteractiveInterface
+// mua.FrontEnd
 // Created by cjw on 2018/10/24.
 
 import java.io.InputStream;
@@ -7,10 +7,10 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 
-class InteractiveInterface {
+class FrontEnd {
 	private static final String GET_INSTRUCTION_PROMPT = ConsoleColors.GREEN + "MUA> " + ConsoleColors.RESET;
 	private static final String CONTINUE_INPUT_PROMPT = "...";
-	private static final String EXIT_PROMPT = "Leave MUA Interpreter.";
+	private static final String EXIT_PROMPT = "Leave MUA InterpreterController.";
 
     private static InputStream inputStream = System.in;
     private static Scanner s = new Scanner(inputStream);

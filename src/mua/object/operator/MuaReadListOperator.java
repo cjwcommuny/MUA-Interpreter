@@ -1,11 +1,11 @@
-package mua.object.functor;
+package mua.object.operator;
 
-import mua.Interpreter;
+import mua.InterpreterController;
 import mua.exception.MuaException;
 import mua.object.primitive.MuaList;
 import mua.object.MuaObject;
 
-public class MuaReadListOperator extends MuaFunctor {
+public class MuaReadListOperator extends MuaOperator {
     //todo: not fully supported
     public static final String FUNC_NAME = "readlist";
     private static final int ARGUMENT_NUM = 0; //TODO:not limited
@@ -14,7 +14,7 @@ public class MuaReadListOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         //TODO: error handling
         checkArgumentNum(argumentList);
-        ArgumentList readArgumentList = Interpreter.readALineAsList();
+        ArgumentList readArgumentList = InterpreterController.readALineAsList();
         return new MuaList(readArgumentList.getList());
     }
 

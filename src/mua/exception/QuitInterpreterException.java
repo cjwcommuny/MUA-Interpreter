@@ -13,7 +13,7 @@ public class QuitInterpreterException extends MuaException {
 //    }
 //
 //    public QuitInterpreterException(List<String> results) {
-//        super("Quit Interpreter");
+//        super("Quit InterpreterController");
 //        this.results = results;
 //    }
 //

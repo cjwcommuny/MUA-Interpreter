@@ -1,14 +1,14 @@
-package mua.object.functor;
+package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
-import mua.object.primitive.MuaNumber;
+import mua.object.primitive.MuaBool;
 
-public class MuaSubOperator extends MuaFunctor {
-    public static final String FUNC_NAME = "sub";
+public class MuaAndOperator extends MuaOperator {
+    public static final String FUNC_NAME = "and";
     private static final int ARGUMENT_NUM = 2;
-    public MuaSubOperator() {
+    public MuaAndOperator() {
         super(FUNC_NAME, ARGUMENT_NUM,true);
     }
 
@@ -16,14 +16,14 @@ public class MuaSubOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList)
             throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
         checkArgumentNum(argumentList);
-        double op1, op2;
+        boolean op1, op2;
         try {
-            op1 = ((MuaNumber) argumentList.get(0)).getValue();
-            op2 = ((MuaNumber) argumentList.get(1)).getValue();
+            op1 = ((MuaBool) argumentList.get(0)).getValue();
+            op2 = ((MuaBool) argumentList.get(1)).getValue();
+            return new MuaBool(op1 && op2);
         } catch (ClassCastException e) {
             throw new MuaArgumentTypeNotCompatibleException();
         }
-        return new MuaNumber(op1 - op2);
     }
 
     @Override

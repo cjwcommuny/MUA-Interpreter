@@ -13,7 +13,7 @@ public class InterpreterTest {
 
     @Test
     public void main() {
-//        Interpreter.main(null);
+//        InterpreterController.main(null);
 //        String data = "Hello, World!\n";
 //        InputStream stdin = System.in;
 //        try {

@@ -1,11 +1,11 @@
-package mua.object.functor;
+package mua.object.operator;
 
-import mua.Interpreter;
+import mua.InterpreterController;
 import mua.exception.MuaException;
 import mua.object.MuaNone;
 import mua.object.MuaObject;
 
-public class MuaPrintOperator extends MuaFunctor {
+public class MuaPrintOperator extends MuaOperator {
     public static final String FUNC_NAME = "print";
     private static final int ARGUMENT_NUM = 1;
     @Override
@@ -17,7 +17,7 @@ public class MuaPrintOperator extends MuaFunctor {
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         checkArgumentNum(argumentList);
         MuaObject message = argumentList.get(0);
-        Interpreter.printOnConsole(message);
+        InterpreterController.printOnConsole(message);
         //TODO: should be added to result list instead of directly print on console
         return new MuaNone();
     }
