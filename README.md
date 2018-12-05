@@ -23,11 +23,14 @@
 
 ## 运行方法
 
-
+```shell
+cd "out/production/MUA-Interpreter"
+java mua.InterpreterController
+```
 
 ## 运行效果
 
-![屏幕快照 2018-12-03 8.00.51](images/屏幕快照 2018-12-03 8.00.51.png)
+![屏幕快照 2018-12-05 18.50.23](images/屏幕快照 2018-12-05 18.50.23.png)
 
 ## 实现方法
 
