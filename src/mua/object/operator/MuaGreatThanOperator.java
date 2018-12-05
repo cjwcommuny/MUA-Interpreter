@@ -16,8 +16,7 @@ public class MuaGreatThanOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
-        checkArgumentNum(argumentList);
+            throws MuaArgumentTypeNotCompatibleException {
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);
 
@@ -27,7 +26,7 @@ public class MuaGreatThanOperator extends MuaOperator {
         } else if (op1.getClass() == MuaWord.class && op2.getClass() == MuaWord.class) {
             return new MuaBool(((MuaWord) op1).compareTo((MuaWord) op2) > 0);
         } else {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
     }
 

@@ -1,6 +1,6 @@
-package mua.object;
+package mua.object.primitive;
 
-public class MuaNone extends MuaObject {
+public class MuaNone extends MuaPrimitiveType {
     public MuaNone() {
 
     }

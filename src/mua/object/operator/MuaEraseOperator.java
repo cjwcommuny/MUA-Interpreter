@@ -2,8 +2,9 @@ package mua.object.operator;
 
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
+import mua.exception.MuaObjectNotExistException;
 import mua.namespace.NamespaceStack;
-import mua.object.MuaNone;
+import mua.object.primitive.MuaNone;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaWord;
 
@@ -20,15 +21,16 @@ public class MuaEraseOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        checkArgumentNum(argumentList);
+    public MuaObject operate(ArgumentList argumentList)
+            throws MuaArgumentTypeNotCompatibleException, MuaObjectNotExistException {
         MuaObject name = argumentList.get(0);
-        //TODO:change to try-catch block
         if (name.getClass() != MuaWord.class) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
-        //TODO: key not found
-        NamespaceStack.getInstance().remove(((MuaWord) name).getValue());
+        MuaObject previousObject = NamespaceStack.getInstance().remove(((MuaWord) name).getValue());
+        if (previousObject == null) {
+            throw new MuaObjectNotExistException(name.toString());
+        }
         return new MuaNone();
     }
 }

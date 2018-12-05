@@ -5,7 +5,7 @@ import mua.object.MuaObject;
 import java.util.List;
 import java.util.ListIterator;
 
-public class MuaList extends MuaObject {
+public class MuaList extends MuaPrimitiveType {
     private List<MuaObject> list;
 
     public MuaList(List<MuaObject> list) {

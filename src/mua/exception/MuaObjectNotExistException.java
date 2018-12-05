@@ -1,7 +1,7 @@
 package mua.exception;
 
 public class MuaObjectNotExistException extends MuaException {
-    public MuaObjectNotExistException() {
-        super("ERROR: can't find object.");
+    public MuaObjectNotExistException(String object) {
+        super("can't find object '" + object + "'", Level.ERROR);
     }
 }

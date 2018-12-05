@@ -1,7 +1,7 @@
 package mua.exception;
 
 public class MuaArgumentTypeNotCompatibleException extends MuaException {
-    public MuaArgumentTypeNotCompatibleException() {
-        super("ERROR: argument type not compatible.");
+    public MuaArgumentTypeNotCompatibleException(String operator) {
+        super("argument type " + operator + " not compatible.", Level.ERROR);
     }
 }

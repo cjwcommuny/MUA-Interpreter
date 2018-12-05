@@ -2,7 +2,7 @@ package mua.object.primitive;
 
 import mua.object.MuaObject;
 
-public class MuaNumber extends MuaObject implements Comparable<MuaNumber> {
+public class MuaNumber extends MuaPrimitiveType implements Comparable<MuaNumber> {
     private double value;
     //private final static double EPSILON = 0.001; //need to change
 

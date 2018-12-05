@@ -12,8 +12,6 @@ public class MuaReadListOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        //TODO: error handling
-        checkArgumentNum(argumentList);
         ArgumentList readArgumentList = InterpreterController.readALineAsList();
         return new MuaList(readArgumentList.getList());
     }

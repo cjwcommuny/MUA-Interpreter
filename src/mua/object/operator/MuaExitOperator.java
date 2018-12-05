@@ -10,8 +10,7 @@ public class MuaExitOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        //TODO: need to changed
+    public MuaObject operate(ArgumentList argumentList) throws QuitInterpreterException {
         throw new QuitInterpreterException();
     }
 }

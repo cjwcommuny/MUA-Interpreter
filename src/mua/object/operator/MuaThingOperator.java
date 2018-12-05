@@ -19,13 +19,16 @@ public class MuaThingOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaException {
-        checkArgumentNum(argumentList);
+            throws MuaArgumentTypeNotCompatibleException, MuaObjectNotExistException {
         MuaObject name = argumentList.get(0);
         if (name.getClass() != MuaWord.class) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
         //TODO: error handling
-        return NamespaceStack.getInstance().getObject(((MuaWord) name).getValue());
+        MuaObject result = NamespaceStack.getInstance().getObject(((MuaWord) name).getValue());
+        if (result == null) {
+            throw new MuaObjectNotExistException(name.toString());
+        }
+        return result;
     }
 }

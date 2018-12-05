@@ -15,11 +15,10 @@ super(FUNC_NAME, ARGUMENT_NUM, true);
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaException {
-        checkArgumentNum(argumentList);
+    public MuaObject operate(ArgumentList argumentList) throws MuaArgumentTypeNotCompatibleException {
         MuaObject name = argumentList.get(0);
         if (name.getClass() != MuaWord.class) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
         boolean objectFound = NamespaceStack.getInstance().getObject(((MuaWord) name).getValue()) != null;
         return new MuaBool(objectFound);

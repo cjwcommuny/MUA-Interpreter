@@ -8,41 +8,35 @@ import mua.object.operator.ArgumentList;
 import java.util.*;
 
 public class InterpreterController {
-    private static boolean shouldInterpreterContinueLoop = true;
-    private static String lexerMessage;
-    private static String runningMessage;
 
     public static void main(String[] args) {
         interpret();
     }
 
+    public static void testOneInstruction(String rawInstruction) throws MuaException {
+        List<MuaObject> operationList = scanInstruction(rawInstruction);
+        runOperations(operationList);
+    }
+
     private static void interpret() {
         initInterpreter();
-        while (shouldContinue()) {
+        while (true) {
             try {
-                readyForReadingInstruction();
                 String rawInstruction = readInstruction();
                 List<MuaObject> operationList = scanInstruction(rawInstruction);
                 runOperations(operationList);
+            } catch (QuitInterpreterException e) {
+                break;
             } catch (MuaException e) {
-                //exception has been handled
-            } finally {
-                printMessage();
-                clearAfterAnInstruction();
+                printOnConsole(e.getMessage());
             }
         }
         quitInterpreter();
     }
 
     private static void runOperations(List<MuaObject> operationList) throws MuaException {
-        try {
-            InstructionRunner instructionRunner = new InstructionRunner(operationList);
-            instructionRunner.run();
-        } catch (QuitInterpreterException e) {
-            shouldInterpreterContinueLoop = false;
-        } catch (MuaException e) {
-            runningMessage = e.getMessage();
-        }
+        InstructionRunner instructionRunner = new InstructionRunner(operationList);
+        instructionRunner.run();
     }
 
     private static void quitInterpreter() {
@@ -50,14 +44,6 @@ public class InterpreterController {
     }
 
     private static void initInterpreter() {
-        //TODO
-    }
-
-    private static boolean shouldContinue() {
-        return shouldInterpreterContinueLoop;
-    }
-
-    private static void readyForReadingInstruction() {
         //empty for now
     }
 
@@ -66,26 +52,11 @@ public class InterpreterController {
     }
 
     private static List<MuaObject> scanInstruction(String rawInstruction) throws MuaException {
-        try {
-            Lexer lexer = new Lexer(rawInstruction);
-            return lexer.scan();
-        } catch (MuaException e) {
-            lexerMessage = e.getMessage();
-            throw e;
-        }
+        Lexer lexer = new Lexer(rawInstruction);
+        return lexer.scan();
     }
 
-    private static void printMessage() {
-        FrontEnd.print(lexerMessage);
-        FrontEnd.print(runningMessage);
-    }
-
-    static private void clearAfterAnInstruction() {
-        lexerMessage = null;
-        runningMessage = null;
-    }
-
-    public static void printOnConsole(MuaObject object) {
+    public static void printOnConsole(Object object) {
         FrontEnd.print(object);
     }
 

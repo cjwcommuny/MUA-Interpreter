@@ -2,6 +2,7 @@ package mua.lexer;
 
 import java.util.*;
 import mua.exception.MuaBraceNotCompatibleException;
+import mua.exception.MuaIllegalExpressionException;
 import mua.exception.MuaSymbolNotResolvableException;
 import mua.exception.MuaException;
 import mua.object.MuaObject;
@@ -18,8 +19,8 @@ public class Lexer {
         this.rawInstruction = rawInstruction;
     }
 
-    static List<String> instructionToTokenList(String instruction) throws MuaBraceNotCompatibleException {
-        //TODO: error handling
+    static List<String> instructionToTokenList(String instruction)
+            throws MuaBraceNotCompatibleException, MuaIllegalExpressionException {
         List<String> tokenList = new LinkedList<>();
         //meet `[` coutner++, meet `]` counter--
         int bracketMatchingCounter = 0;
@@ -33,6 +34,11 @@ public class Lexer {
                 addTokenList(tokenList, instruction, currentTokenStart, currentTokenEnd);
                 currentTokenStart = currentTokenEnd + 1;
             } else if (currentChar == '[') {
+                if (currentTokenStart != i && instruction.charAt(i-1) != ' ') {
+                    throw new
+                            MuaIllegalExpressionException("There should be a space between '[' and the previous token",
+                            MuaException.Level.ERROR);
+                }
                 if (notInAPairOfBrackets) {
                     currentTokenStart = i;
                 }
@@ -48,6 +54,9 @@ public class Lexer {
         //handle the last word
         currentTokenEnd = instruction.length();
         addTokenList(tokenList, instruction, currentTokenStart, currentTokenEnd);
+        if (bracketMatchingCounter != 0) {
+            throw new MuaBraceNotCompatibleException();
+        }
         return tokenList;
     }
 
@@ -87,7 +96,7 @@ public class Lexer {
     static List<MuaObject> evaluateTokenList(List<String> instructionTokenArr) throws MuaException {
         List<MuaObject> objectList = new LinkedList<>();
         for (String token: instructionTokenArr) {
-            List<MuaObject> currentObjectList = evaluateToken(token); //TODO: bad variable name
+            List<MuaObject> currentObjectList = evaluateToken(token);
             objectList.addAll(currentObjectList);
         }
         return objectList;
@@ -99,6 +108,6 @@ public class Lexer {
                 return typeHandler.returnObjectOfThisType(token);
             }
         }
-        throw new MuaSymbolNotResolvableException();
+        throw new MuaSymbolNotResolvableException(token);
     }
 }

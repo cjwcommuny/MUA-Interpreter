@@ -1,5 +1,6 @@
 package mua;
 
+import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaException;
 import mua.exception.QuitInterpreterException;
 import mua.object.MuaObject;
@@ -9,7 +10,7 @@ import mua.object.operator.MuaOperator;
 import java.util.Iterator;
 import java.util.List;
 
-public class InstructionRunner {
+class InstructionRunner {
     private List<MuaObject> objectList;
     private Iterator<MuaObject> objectListIterator;
 
@@ -27,26 +28,24 @@ public class InstructionRunner {
     }
 
     private MuaObject parseSingleObject(MuaObject currentObject) throws MuaException {
-        try {
-            boolean objectIsFunctor = currentObject.getClass().getSuperclass() == MuaOperator.class;
-            if (objectIsFunctor) {
-                MuaOperator functor = (MuaOperator) currentObject;
-                ArgumentList argumentList = readArguments(functor.getArgumentNum());
-                return functor.operate(argumentList);
-            } else {
-                return currentObject;
-            }
-        } catch (QuitInterpreterException e) {
-            //TODO
-            throw e;
+        boolean objectIsOperator = currentObject.getClass().getSuperclass() == MuaOperator.class;
+        if (objectIsOperator) {
+            MuaOperator operator = (MuaOperator) currentObject;
+            ArgumentList argumentList = readArguments(operator.getArgumentNum(), operator.toString());
+            return operator.operate(argumentList);
+        } else {
+            return currentObject;
         }
     }
 
-    private ArgumentList readArguments(int argumentNum) throws MuaException {
+    private ArgumentList readArguments(int argumentNum, String operator) throws MuaException {
         ArgumentList argumentList = new ArgumentList();
         for (int i = 0; i < argumentNum; ++i) {
-            //TODO: argument not enough
-            argumentList.add(parseSingleObject(objectListIterator.next()));
+            if (objectListIterator.hasNext()) {
+                argumentList.add(parseSingleObject(objectListIterator.next()));
+            } else {
+                throw new MuaArgumentNumNotCompatibleException(operator);
+            }
         }
         return argumentList;
     }

@@ -20,7 +20,6 @@ public class MuaReadOperator extends MuaOperator {
     @Override
     public MuaObject operate(ArgumentList argumentList) throws MuaException {
         //TODO: error handling
-        checkArgumentNum(argumentList);
         return InterpreterController.readToken();
     }
 }

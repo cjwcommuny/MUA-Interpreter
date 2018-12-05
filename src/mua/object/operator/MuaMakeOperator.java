@@ -3,7 +3,7 @@ package mua.object.operator;
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.namespace.NamespaceStack;
-import mua.object.MuaNone;
+import mua.object.primitive.MuaNone;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaWord;
 
@@ -21,15 +21,12 @@ public class MuaMakeOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException,
-            MuaArgumentTypeNotCompatibleException {
-        checkArgumentNum(argumentList);
+            throws MuaArgumentTypeNotCompatibleException {
         MuaObject name = argumentList.get(0);
         MuaObject value = argumentList.get(1);
         if (name.getClass() != MuaWord.class) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
-        //TODO: key not found handling
         //TODO: 使用多态实现make function 和make word
         NamespaceStack.getInstance().put(((MuaWord) name).getValue(), value);
         return new MuaNone();

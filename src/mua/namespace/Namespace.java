@@ -21,7 +21,7 @@ class Namespace {
         nameObjectMap.put(name, object);
     }
 
-    void remove(String name) {
-        nameObjectMap.remove(name);
+    MuaObject remove(String name) {
+        return nameObjectMap.remove(name);
     }
 }

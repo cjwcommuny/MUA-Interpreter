@@ -14,14 +14,13 @@ public class MuaMultiplyOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
-        checkArgumentNum(argumentList);
+            throws MuaArgumentTypeNotCompatibleException {
         double op1, op2;
         try {
             op1 = ((MuaNumber) argumentList.get(0)).getValue();
             op2 = ((MuaNumber) argumentList.get(1)).getValue();
         } catch (ClassCastException e) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
         return new MuaNumber(op1 * op2);
     }

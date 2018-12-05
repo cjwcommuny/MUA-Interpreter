@@ -14,15 +14,14 @@ public class MuaAndOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentNumNotCompatibleException, MuaArgumentTypeNotCompatibleException {
-        checkArgumentNum(argumentList);
+            throws MuaArgumentTypeNotCompatibleException {
         boolean op1, op2;
         try {
             op1 = ((MuaBool) argumentList.get(0)).getValue();
             op2 = ((MuaBool) argumentList.get(1)).getValue();
             return new MuaBool(op1 && op2);
         } catch (ClassCastException e) {
-            throw new MuaArgumentTypeNotCompatibleException();
+            throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }
     }
 

@@ -30,10 +30,4 @@ public abstract class MuaOperator extends MuaObject {
     public int getArgumentNum() {
         return argumentNum;
     }
-
-    protected void checkArgumentNum(ArgumentList argumentList) throws MuaArgumentNumNotCompatibleException{
-        if (argumentList.size() != argumentNum) {
-            throw new MuaArgumentNumNotCompatibleException();
-        }
-    }
 }

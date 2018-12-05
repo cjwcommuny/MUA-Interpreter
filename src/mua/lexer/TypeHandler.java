@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class TypeHandler  {
     public abstract boolean isThisType(String str);
-    public List<MuaObject> returnObjectOfThisType(String str) throws MuaException {
+    List<MuaObject> returnObjectOfThisType(String str) throws MuaException {
         List<MuaObject> returnList = new LinkedList<>();
         addReturnObjectToList(returnList, str);
         return returnList;
@@ -30,7 +30,7 @@ class NumericTypeHandler extends TypeHandler {
     }
 
     @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(new MuaNumber(Double.parseDouble(str)));
     }
 }
@@ -42,7 +42,7 @@ class WordTypeHandler extends TypeHandler {
     }
 
     @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(new MuaWord(str.substring(1)));
     }
 }
@@ -54,7 +54,7 @@ class BoolTypeHandler extends TypeHandler {
     }
 
     @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(new MuaBool(Boolean.parseBoolean(str)));
     }
 }
@@ -85,13 +85,12 @@ class DereferenceTypeHandler extends TypeHandler {
     }
 
     @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(new MuaThingOperator());
         returnList.add(new MuaWord(str.substring(1)));
     }
 }
 
-//TODO
 class OperatorTypeHandler extends TypeHandler {
     private MuaOperator functor;
     @Override
@@ -106,7 +105,7 @@ class OperatorTypeHandler extends TypeHandler {
     }
 
     @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(functor);
     }
 }

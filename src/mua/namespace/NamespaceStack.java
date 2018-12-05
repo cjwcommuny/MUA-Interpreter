@@ -58,8 +58,8 @@ public class NamespaceStack {
         namespaceStack.push(namespace);
     }
 
-    public void remove(String name) {
-        peek().remove(name);
+    public MuaObject remove(String name) {
+        return peek().remove(name);
     }
 
     public void put(String name, MuaObject object) {

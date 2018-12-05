@@ -39,7 +39,20 @@
 
 #### 类型系统
 
+![TypeSystem](images/TypeSystem.png)
 
+所有对象的基类是 `MuaObject` ，由此派生出 `MuaPrimitiveType` 和 `MuaOperator` 类。
+
+对于 `MuaOperator` 类，
+
+```java
+abstract class MuaOperator extends MuaObject {
+    public abstract MuaObject operate(ArgumentList argumentList);
+    public int getArgumentNum();
+}
+```
+
+抽象方法 `operate()` 是使用该函数/算子进行处理的方法，通过向其中传入 `ArgumentList` 对象，可以实现传递参数。
 
 ### 具体设计
 
@@ -104,56 +117,38 @@ run() {
 
 当 `evaluateCurrentObject()` 读取到一个函数对象 (比如 `make` 命令) 时，它会用 `objectListIterator.next()` 读取之后的若干个参数传入函数对象中处理。
 
-## 测试样例示例
+#### NamespaceStack
 
-### 基本绑定赋值取值操作：
+NamespaceStack中以堆栈的形式存储了不同的变量名空间：
 
-```
-make "aList [make "anotherList ["word1 5 true]]
-:aList
-```
-
-```
-make "aWord "this_is_a_word
-:aWord
+```java
+class NamespaceStack {
+    static Stack<Namespace> namespaceStack;
+}
 ```
 
-```
-make "num 3
-thing "num
-:num
-isname "num
-print :num
+栈中最顶层的 `Namespace` 元素即为当前上下文的所有可引用变量名，堆栈的最底层是 global 空间。
+
+```java
+class Namespace {
+    Map<String, MuaObject> map;
+}
 ```
 
-### 算术运算与布尔运算
+`Namespace` 对象用 `Map` 来实现名字-对象映射。
 
-```
-add 3 4
-sub 2 8
-mul 7 9
-div 4 3
-mod 5 2
-```
+## JUnit 测试
 
-```
-eq 7 7
-eq "word1 "word1
-eq "word1 "word2
-eq "word1 "word10
-gt 5 2
-gt 3 4
-lt 5 2
-lt 3 4
-```
+### JUnit 测试函数
 
-```
-not true
-not false
-and true false
-and true true
-or false false
-or true false
+```java
+void testNumberCompare();
+void testWordCompare();
+void testArithmeticOperator();
+void testDivideModuleZero();
+void testBoolOperator();
+void testMakeAndThingOperator();
+void testMakeAndPrintOperator();
 ```
 
 ### IO 操作
@@ -184,7 +179,13 @@ exit
 
 ## 可改进的地方
 
-* 错误处理
 * 架构设计与解耦合
+
+  代码依旧存在一定的耦合性，类之间的依赖关系还可以再进行调整。
+
+  一些代码互相冗余，可以再进一步提取抽象。
+
 * 其他功能
+
+  其他功能还未完成
 

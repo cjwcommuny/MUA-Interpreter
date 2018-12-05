@@ -14,7 +14,7 @@ class FrontEnd {
 
     private static InputStream inputStream = System.in;
     private static Scanner s = new Scanner(inputStream);
-    private static PrintStream outputStream = System.out;
+    public static PrintStream outputStream = System.out; //public for test
 
     static void quitInterpreter() {
         outputStream.println(EXIT_PROMPT);

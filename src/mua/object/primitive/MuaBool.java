@@ -2,7 +2,7 @@ package mua.object.primitive;
 
 import mua.object.MuaObject;
 
-public class MuaBool extends MuaObject {
+public class MuaBool extends MuaPrimitiveType {
     private boolean value;
 
     public MuaBool(boolean value) {

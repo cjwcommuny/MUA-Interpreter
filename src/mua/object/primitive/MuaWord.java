@@ -2,7 +2,7 @@ package mua.object.primitive;
 
 import mua.object.MuaObject;
 
-public class MuaWord extends MuaObject implements Comparable<MuaWord>{
+public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
     private String value;
 
     public MuaWord(String value) {
