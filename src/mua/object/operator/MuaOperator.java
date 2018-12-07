@@ -7,7 +7,7 @@ import mua.object.*;
 public abstract class MuaOperator extends MuaObject {
     private String funcName;
     private int argumentNum;
-    private boolean isBuiltIn = false;
+    private boolean isBuiltIn;
 
     public abstract MuaObject operate(ArgumentList argumentList) throws MuaException;
 
@@ -29,5 +29,9 @@ public abstract class MuaOperator extends MuaObject {
 
     public int getArgumentNum() {
         return argumentNum;
+    }
+
+    public boolean isBuiltIn() {
+        return isBuiltIn;
     }
 }

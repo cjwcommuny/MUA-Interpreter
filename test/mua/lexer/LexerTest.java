@@ -57,7 +57,7 @@ public class LexerTest {
     }
 
     @Test
-    public void instructionToTokenList() {
+    public void instructionToTokenList() throws MuaException {
         String testStr1 = " word1 word2 word3 [element1 element2 [element3 element4] element5] " +
                 "[element6 element7 element8] word9";
         String[] correctResult1 = {"word1", "word2", "word3", "[element1 element2 [element3 element4] element5]",
@@ -83,15 +83,15 @@ public class LexerTest {
         String testStr5 = "[element1 element2 [element3 element4] element5] ";
         String[] correctResult5 = {"[element1 element2 [element3 element4] element5]"};
         testInstructionToTokenList(testStr5, correctResult5);
+
+        String testStr6 = "\"has[ [element2 [\"has\" element4] element5] \"has[]";
+        String[] correctResult6 = {"\"has[", "[element2 [\"has\" element4] element5]", "\"has[]"};
+        testInstructionToTokenList(testStr6, correctResult6);
     }
 
-    private void testInstructionToTokenList(String testStr, String[] correctResult) {
-        try {
-            List<String> resultStr = Lexer.instructionToTokenList(testStr);
-            testArrEqual(correctResult, resultStr);
-        } catch (MuaException e) {
-            //TODO
-        }
+    private void testInstructionToTokenList(String testStr, String[] correctResult) throws MuaException {
+        List<String> resultStr = Lexer.instructionToTokenList(testStr);
+        testArrEqual(correctResult, resultStr);
     }
 
     private void testArrEqual(String[] correctStringArr, List<String> resultList) {

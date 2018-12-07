@@ -1,5 +1,5 @@
 package mua;//
-// mua.FrontEnd
+// mua.CommandLineInterface
 // Created by cjw on 2018/10/24.
 
 import java.io.InputStream;
@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 
-class FrontEnd {
+class CommandLineInterface {
 	private static final String GET_INSTRUCTION_PROMPT = ConsoleColors.GREEN + "MUA> " + ConsoleColors.RESET;
 	private static final String CONTINUE_INPUT_PROMPT = "...";
 	private static final String EXIT_PROMPT = "Leave MUA Interpreter.";

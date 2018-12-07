@@ -2,6 +2,8 @@ package mua.object.operator;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
+import mua.exception.MuaException;
+import mua.exception.MuaIllegalExpressionException;
 import mua.namespace.NamespaceStack;
 import mua.object.primitive.MuaNone;
 import mua.object.MuaObject;
@@ -21,9 +23,16 @@ public class MuaMakeOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(ArgumentList argumentList)
-            throws MuaArgumentTypeNotCompatibleException {
+            throws MuaArgumentTypeNotCompatibleException, MuaIllegalExpressionException {
         MuaObject name = argumentList.get(0);
         MuaObject value = argumentList.get(1);
+        MuaObject result = NamespaceStack.getInstance().getObject(((MuaWord) name).getValue());
+        if (result != null && result.getClass().getSuperclass() == MuaOperator.class) {
+            MuaOperator operator = (MuaOperator) result;
+            if (operator.isBuiltIn()) {
+                throw new MuaIllegalExpressionException("Cannot make builtin name: " + name, MuaException.Level.ERROR);
+            }
+        }
         if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException(this.toString());
         }

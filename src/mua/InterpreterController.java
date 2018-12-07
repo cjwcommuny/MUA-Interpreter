@@ -40,7 +40,7 @@ public class InterpreterController {
     }
 
     private static void quitInterpreter() {
-        FrontEnd.quitInterpreter();
+        CommandLineInterface.quitInterpreter();
     }
 
     private static void initInterpreter() {
@@ -48,7 +48,7 @@ public class InterpreterController {
     }
 
     private static String readInstruction() {
-        return FrontEnd.getNextInstruction();
+        return CommandLineInterface.getNextInstruction();
     }
 
     private static List<MuaObject> scanInstruction(String rawInstruction) throws MuaException {
@@ -57,18 +57,18 @@ public class InterpreterController {
     }
 
     public static void printOnConsole(Object object) {
-        FrontEnd.print(object);
+        CommandLineInterface.print(object);
     }
 
     public static ArgumentList readALineAsList() throws MuaException{
-        String line = FrontEnd.getNextLine();
+        String line = CommandLineInterface.getNextLine();
         Lexer lexer = new Lexer(line);
         List<MuaObject> objectList = lexer.scan();
         return new ArgumentList(objectList);
     }
 
     public static MuaObject readToken() throws MuaException {
-        String token = FrontEnd.getNextToken();
+        String token = CommandLineInterface.getNextToken();
         Lexer lexer = new Lexer(token);
         return lexer.scan().get(0); //TODO: error handling
     }

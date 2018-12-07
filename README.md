@@ -4,27 +4,102 @@
 
 ## 实现的功能
 
-* 基本数据类型 `number` , `word` , `list` , `bool`  的创建与存储
+* 基本数据类型 `number` , `word` , `list` , `bool`  
+
 * 注释 `//`
+
+  示例：
+
+  ```
+  make "word "this_is_a_word //this is comment
+  ```
+
 * `make <word> <value>`： 将value绑定到word上。基本操作的字不能用做这里的word。绑定后的word称作名字，位于命名空间。
+
+  示例：
+
+  ```
+  make "word "this_is_a_word
+  ```
+
 * `thing <word>`：返回word所绑定的值
+
+  示例：
+
+  ```
+  thing "word //"word has been made before
+  ```
+
 * `:<word>`：与thing相同
+
+  示例：
+
+  ```
+  :word //"word has been made before
+  ```
+
 * `erase <word>`：清除word所绑定的值
+
+  示例：
+
+  ```
+  erase "word
+  ```
+
 * `isname <word>`：返回word是否是一个名字，true/false
+
+  示例：
+
+  ```
+  isname "word //if "word has been erase, return false
+  ```
+
+  ```
+  isname "thing //return true, because `thing` is a builtin operator
+  ```
+
 * `print <value>`：输出value
+
+  示例：
+
+  ```
+  print "word //will print "word
+  ```
+
+  ```
+  print :word //will print the value "word reference to, if it reference one
+  ```
+
 * `read`：返回一个从标准输入读取的数字或字
+
+  示例：
+
+  ```
+  make "this_is_a_number read //这里要回车
+  1 //这里要回车
+  ```
+
 * `readlist`：返回一个从标准输入读取的一行，构成一个表，行中每个以空格分隔的部分是list的一个元素
+
+  示例：
+
+  ```
+  make "this_is_a_list readlist //这里要回车
+  1 2 "word1 make "word2 "word3 //这里要回车
+  ```
+
 * 运算符operator
   - `add`, `sub`, `mul`, `div`, `mod`：`<operator> <number> <number>`
   - `eq`, `gt`, `lt`：`<operator> <number|word> <number|word>`
   - `and`, `or`：`<operator> <bool> <bool>`
   - `not`：`not <bool>`
+
 * 退出命令 `exit`
 
 ## 运行方法
 
 ```shell
-cd "out/production/MUA-Interpreter"
+cd "MUA-Interpreter"
 java mua.InterpreterController
 ```
 

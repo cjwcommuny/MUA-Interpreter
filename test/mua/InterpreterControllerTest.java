@@ -3,7 +3,6 @@ package mua;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaDivideOrModuleZeroException;
 import mua.exception.MuaException;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -128,7 +127,7 @@ public class InterpreterControllerTest {
 
     private void testInstruction(String instruction, String expected) throws MuaException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        FrontEnd.outputStream = new PrintStream(stream);
+        CommandLineInterface.outputStream = new PrintStream(stream);
         InterpreterController.testOneInstruction(instruction);
         System.out.flush();
         String result = stream.toString().trim();

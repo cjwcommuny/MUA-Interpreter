@@ -6,7 +6,6 @@ import mua.exception.MuaIllegalExpressionException;
 import mua.exception.MuaSymbolNotResolvableException;
 import mua.exception.MuaException;
 import mua.object.MuaObject;
-import sun.jvm.hotspot.ui.ObjectListPanel;
 
 public class Lexer {
     private String rawInstruction;
@@ -22,7 +21,7 @@ public class Lexer {
     static List<String> instructionToTokenList(String instruction)
             throws MuaBraceNotCompatibleException, MuaIllegalExpressionException {
         List<String> tokenList = new LinkedList<>();
-        //meet `[` coutner++, meet `]` counter--
+        //meet `[` counter++, meet `]` counter--
         int bracketMatchingCounter = 0;
         int currentTokenStart = 0, currentTokenEnd;
         for (int i = 0; i < instruction.length(); ++i) {
@@ -35,15 +34,26 @@ public class Lexer {
                 currentTokenStart = currentTokenEnd + 1;
             } else if (currentChar == '[') {
                 if (currentTokenStart != i && instruction.charAt(i-1) != ' ') {
-                    throw new
-                            MuaIllegalExpressionException("There should be a space between '[' and the previous token",
-                            MuaException.Level.ERROR);
+                    if (instruction.charAt(currentTokenStart) == '\"') {
+                        //allow word "has[ and word "has"
+                        continue;
+//                    } else {
+//                        throw new MuaIllegalExpressionException(
+//                                "There should be a space between '[' and the previous token",
+//                                MuaException.Level.ERROR
+//                        );
+                    }
                 }
                 if (notInAPairOfBrackets) {
                     currentTokenStart = i;
                 }
                 ++bracketMatchingCounter;
             }  else if (currentChar == ']') {
+                if (currentTokenStart != i
+                        && instruction.charAt(i-1) != ' '
+                        && instruction.charAt(currentTokenStart) == '\"') {
+                    continue;
+                }
                 --bracketMatchingCounter;
                 if (notInAPairOfBrackets) {
                     addTokenList(tokenList, instruction, currentTokenStart, currentTokenEnd);
