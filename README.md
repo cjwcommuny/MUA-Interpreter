@@ -1,6 +1,10 @@
 # MUA Interpreter
 
-陈佳伟 3160102178
+陈佳伟 
+
+3160102178
+
+3160102178@zju.edu.cn
 
 ## 实现的功能
 
@@ -99,8 +103,7 @@
 ## 运行方法
 
 ```shell
-cd "MUA-Interpreter"
-java mua.InterpreterController
+java -jar MUA-Interpreter.jar
 ```
 
 ## 运行效果
@@ -252,8 +255,6 @@ add 3 4 //this is a comment
 ```
 exit
 ```
-
-
 
 ## 可改进的地方
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 class CommandLineInterface {
 	private static final String GET_INSTRUCTION_PROMPT = ConsoleColors.GREEN + "MUA> " + ConsoleColors.RESET;
-	private static final String CONTINUE_INPUT_PROMPT = "...";
+	private static final String CONTINUE_INPUT_PROMPT = "... ";
 	private static final String EXIT_PROMPT = "Leave MUA Interpreter.";
 
     private static InputStream inputStream = System.in;
