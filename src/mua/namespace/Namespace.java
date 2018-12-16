@@ -2,10 +2,11 @@ package mua.namespace;
 
 import mua.object.MuaObject;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-class Namespace {
+public class Namespace implements Serializable {
     private Map<String, MuaObject> nameObjectMap;
 
     Namespace() {

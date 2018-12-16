@@ -2,7 +2,10 @@ package mua.namespace;
 
 import mua.object.MuaObject;
 import mua.object.operator.*;
+import mua.object.primitive.MuaNumber;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -15,13 +18,26 @@ public class NamespaceStack {
             new MuaEraseOperator(), new MuaExitOperator(), new MuaGreatThanOperator(), new MuaIsNameOperator(),
             new MuaLessThanOperator(), new MuaMakeOperator(), new MuaModuloOperator(), new MuaMultiplyOperator(),
             new MuaNotOperator(), new MuaOrOperator(), new MuaPrintOperator(), new MuaReadListOperator(),
-            new MuaReadOperator(), new MuaSubOperator(), new MuaThingOperator()
+            new MuaReadOperator(), new MuaSubOperator(), new MuaThingOperator(), new MuaRepeatOperator(),
+            new MuaOutputOperator(), new MuaStopOperator(), new MuaExportOperator(), new MuaIsNumberOperator(),
+            new MuaIsWordOperator(), new MuaIsListOperator(), new MuaIsBoolOperator(), new MuaIsEmptyOperator(),
+            new MuaRandomOperator(), new MuaSqrtOperator(), new MuaFloorOperator(), new MuaWordOperator(),
+            new MuaIfOperator(), new MuaSentenceOperator(), new MuaListOperator(), new MuaJoinOperator(),
+            new MuaFirstOperator(), new MuaLastOperator(), new MuaButFirstOperator(), new MuaButLastOperator(),
+            new MuaWaitOperator(), new MuaSaveOperator(), new MuaLoadOperator(), new MuaEraseOperator(),
+            new MuaPostAllOperator(), new MuaRunOperator(),
     };
     private static NamespaceStack namespaceStackSingleton = new NamespaceStack();
 
     private NamespaceStack() {
         addGlobalSpace();
         loadFunctor();
+        loadConstants();
+    }
+
+    private void loadConstants() {
+        Namespace globalNamespace = namespaceStack.peek();
+        globalNamespace.put("pi", new MuaNumber(3.14159));
     }
 
     private void addGlobalSpace() {
@@ -86,5 +102,29 @@ public class NamespaceStack {
         for (Map.Entry<String, MuaObject> entry: currentNamespaceMap.entrySet()) {
             globalNamespace.put(entry.getKey(), entry.getValue());
         }
+    }
+
+    public Namespace getCurrentNamespace() {
+        return peek();
+    }
+
+    public void mergeNamespace(Namespace namespace) {
+        Map<String, MuaObject> newMap = namespace.getNameObjectMap();
+        Map<String, MuaObject> originalMap = peek().getNameObjectMap();
+        originalMap.putAll(newMap);
+    }
+
+    public void eraseAllNameFromCurrentNamespace() {
+        Map<String, MuaObject> map = peek().getNameObjectMap();
+        map.clear();
+    }
+
+    public List<String> listAllNameFromCurrentNamespace() {
+        Map<String, MuaObject> map = peek().getNameObjectMap();
+        List<String> returnValue = new LinkedList<>();
+        for (Map.Entry<String, MuaObject> entry: map.entrySet()) {
+            returnValue.add(entry.getKey());
+        }
+        return returnValue;
     }
 }

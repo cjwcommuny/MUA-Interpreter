@@ -3,6 +3,7 @@ package mua.object.primitive;
 import mua.object.MuaObject;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -49,5 +50,47 @@ public class MuaList extends MuaPrimitiveType {
 
     public Iterator<MuaObject> listIterator() {
         return list.listIterator();
+    }
+
+    public MuaList merge(MuaList anotherList) {
+        List<MuaObject> newList = new LinkedList<>(list);
+        newList.addAll(anotherList.getList());
+        return new MuaList(newList);
+    }
+
+    public MuaList joinLast(MuaObject object) {
+        List<MuaObject> newList = new LinkedList<>(list);
+        newList.add(object);
+        return new MuaList(newList);
+    }
+
+    public void add(MuaObject object) {
+        list.add(object);
+    }
+
+    public MuaList joinFirst(MuaObject object) {
+        LinkedList<MuaObject> newList = new LinkedList<>(list);
+        newList.addFirst(object);
+        return new MuaList(newList);
+    }
+
+    public MuaObject getFirstElement() {
+        return list.get(0);
+    }
+
+    public MuaObject getLastElement() {
+        return list.get(list.size() - 1);
+    }
+
+    public MuaList butFirst() {
+        LinkedList<MuaObject> newList = new LinkedList<>(list);
+        newList.removeFirst();
+        return new MuaList(newList);
+    }
+
+    public MuaList butLast() {
+        LinkedList<MuaObject> newList = new LinkedList<>(list);
+        newList.removeLast();
+        return new MuaList(newList);
     }
 }

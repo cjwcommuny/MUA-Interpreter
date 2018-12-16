@@ -39,4 +39,20 @@ public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
     public boolean isEmpty() {
         return value.isEmpty();
     }
+
+    public MuaWord getFirstElement() {
+        return new MuaWord(Character.toString(value.charAt(0)));
+    }
+
+    public MuaWord getLastElement() {
+        return new MuaWord(Character.toString(value.charAt(value.length() -1)));
+    }
+
+    public MuaWord butFirst() {
+        return new MuaWord(value.substring(1));
+    }
+
+    public MuaWord butLast() {
+        return new MuaWord(value.substring(0, value.length() - 1));
+    }
 }
