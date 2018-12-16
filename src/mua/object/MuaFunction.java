@@ -52,7 +52,7 @@ public class MuaFunction extends MuaObject {
             if (formalParameter.getClass() != MuaWord.class) {
                 throw new MuaIllegalFunctionParameterException(functionName);
             }
-            String name = formalParameter.toString();
+            String name = ((MuaWord) formalParameter).getValue();
             NamespaceStack.getInstance().put(name, actualParameter);
         }
     }
