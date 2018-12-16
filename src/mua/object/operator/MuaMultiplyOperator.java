@@ -13,7 +13,7 @@ public class MuaMultiplyOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList)
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
         double op1, op2;
         try {

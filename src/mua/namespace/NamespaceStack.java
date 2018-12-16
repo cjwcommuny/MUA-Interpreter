@@ -3,6 +3,7 @@ package mua.namespace;
 import mua.object.MuaObject;
 import mua.object.operator.*;
 
+import java.util.Map;
 import java.util.Stack;
 
 //TODO: singlton?
@@ -77,5 +78,13 @@ public class NamespaceStack {
 
     public void namespaceEnd() {
         pop();
+    }
+
+    public void exportLocalName() {
+        Map<String, MuaObject> currentNamespaceMap = namespaceStack.peek().getNameObjectMap();
+        Namespace globalNamespace = namespaceStack.firstElement();
+        for (Map.Entry<String, MuaObject> entry: currentNamespaceMap.entrySet()) {
+            globalNamespace.put(entry.getKey(), entry.getValue());
+        }
     }
 }

@@ -35,4 +35,8 @@ public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
     public String toString() {
         return "\"" + getValue();
     }
+
+    public boolean isEmpty() {
+        return value.isEmpty();
+    }
 }

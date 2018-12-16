@@ -15,7 +15,7 @@ super(FUNC_NAME, ARGUMENT_NUM, true);
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaArgumentTypeNotCompatibleException {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaArgumentTypeNotCompatibleException {
         MuaObject name = argumentList.get(0);
         if (name.getClass() != MuaWord.class) {
             throw new MuaArgumentTypeNotCompatibleException(this.toString());

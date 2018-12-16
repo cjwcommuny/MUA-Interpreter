@@ -13,7 +13,7 @@ public class MuaNotOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList)
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
         boolean op;
         try {

@@ -10,7 +10,7 @@ public class MuaExitOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws QuitInterpreterException {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws QuitInterpreterException {
         throw new QuitInterpreterException();
     }
 }

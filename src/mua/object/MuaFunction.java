@@ -1,10 +1,7 @@
 package mua.object;
 
 import mua.InstructionRunner;
-import mua.exception.MuaArgumentNumNotCompatibleException;
-import mua.exception.MuaArgumentTypeNotCompatibleException;
-import mua.exception.MuaException;
-import mua.exception.MuaIllegalFunctionParameterException;
+import mua.exception.*;
 import mua.namespace.NamespaceStack;
 import mua.object.primitive.MuaList;
 import mua.object.primitive.MuaWord;
@@ -37,7 +34,11 @@ public class MuaFunction extends MuaObject {
         addParameterToNamespace();
         InstructionRunner instructionRunner =
                 new InstructionRunner(instructions.getList(), InstructionRunner.Mode.SCRIPT);
-        instructionRunner.run();
+        try {
+            instructionRunner.run();
+        } catch (MuaStopExecutionException e) {
+            //do nothing
+        }
         MuaObject returnValue = instructionRunner.getReturnValue();
         NamespaceStack.getInstance().namespaceEnd();
         return returnValue;

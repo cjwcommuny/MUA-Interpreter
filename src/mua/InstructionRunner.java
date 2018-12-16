@@ -33,7 +33,6 @@ public class InstructionRunner {
             if (mode == Mode.INTERACTIVE) {
                 InterpreterController.printOnConsole(resultObject);
             }
-            returnValue = resultObject;
         }
     }
 
@@ -42,7 +41,7 @@ public class InstructionRunner {
         if (objectIsOperator) {
             MuaOperator operator = (MuaOperator) currentObject;
             ArgumentList argumentList = readArguments(operator.getArgumentNum(), operator.toString());
-            return operator.operate(argumentList);
+            return operator.operate(returnValue, argumentList);
         }
         boolean objectIsFunction = currentObject.getClass() == MuaFunction.class;
         if (objectIsFunction) {

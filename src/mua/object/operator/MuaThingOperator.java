@@ -18,7 +18,7 @@ public class MuaThingOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList)
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException, MuaObjectNotExistException {
         MuaObject name = argumentList.get(0);
         if (name.getClass() != MuaWord.class) {

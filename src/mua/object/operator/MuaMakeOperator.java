@@ -22,7 +22,7 @@ public class MuaMakeOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList)
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException, MuaIllegalExpressionException {
         MuaObject name = argumentList.get(0);
         MuaObject value = argumentList.get(1);

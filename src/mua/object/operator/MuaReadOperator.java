@@ -18,7 +18,7 @@ public class MuaReadOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaException {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException {
         //TODO: error handling
         return InterpreterController.readToken();
     }

@@ -14,7 +14,7 @@ public class MuaPrintOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) {
         MuaObject message = argumentList.get(0);
         InterpreterController.printOnConsole(message);
         //TODO: should be added to result list instead of directly print on console

@@ -24,4 +24,8 @@ class Namespace {
     MuaObject remove(String name) {
         return nameObjectMap.remove(name);
     }
+
+    Map<String, MuaObject> getNameObjectMap() {
+        return nameObjectMap;
+    }
 }

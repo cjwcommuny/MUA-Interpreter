@@ -12,7 +12,7 @@ public class MuaEqualOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) {
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);
         boolean isEqual = op1.equals(op2);

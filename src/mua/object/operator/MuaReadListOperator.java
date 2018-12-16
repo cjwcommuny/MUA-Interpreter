@@ -11,7 +11,7 @@ public class MuaReadListOperator extends MuaOperator {
     private static final int ARGUMENT_NUM = 0; //TODO:not limited
 
     @Override
-    public MuaObject operate(ArgumentList argumentList) throws MuaException {
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException {
         ArgumentList readArgumentList = InterpreterController.readALineAsList();
         return new MuaList(readArgumentList.getList());
     }

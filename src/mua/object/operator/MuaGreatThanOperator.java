@@ -15,7 +15,7 @@ public class MuaGreatThanOperator extends MuaOperator {
     }
 
     @Override
-    public MuaObject operate(ArgumentList argumentList)
+    public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);

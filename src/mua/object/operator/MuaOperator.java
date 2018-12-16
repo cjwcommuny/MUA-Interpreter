@@ -9,7 +9,7 @@ public abstract class MuaOperator extends MuaObject {
     private int argumentNum;
     private boolean isBuiltIn;
 
-    public abstract MuaObject operate(ArgumentList argumentList) throws MuaException;
+    public abstract MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException;
 
     @Override
     public String toString() {
