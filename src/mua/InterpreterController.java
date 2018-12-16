@@ -35,7 +35,7 @@ public class InterpreterController {
     }
 
     private static void runOperations(List<MuaObject> operationList) throws MuaException {
-        InstructionRunner instructionRunner = new InstructionRunner(operationList);
+        InstructionRunner instructionRunner = new InstructionRunner(operationList, InstructionRunner.Mode.INTERACTIVE);
         instructionRunner.run();
     }
 
@@ -70,6 +70,6 @@ public class InterpreterController {
     public static MuaObject readToken() throws MuaException {
         String token = CommandLineInterface.getNextToken();
         Lexer lexer = new Lexer(token);
-        return lexer.scan().get(0); //TODO: error handling
+        return lexer.scan().get(0);
     }
 }

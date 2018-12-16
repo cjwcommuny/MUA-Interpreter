@@ -2,7 +2,7 @@ package mua;
 
 import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaException;
-import mua.exception.QuitInterpreterException;
+import mua.object.MuaFunction;
 import mua.object.MuaObject;
 import mua.object.operator.ArgumentList;
 import mua.object.operator.MuaOperator;
@@ -10,20 +10,30 @@ import mua.object.operator.MuaOperator;
 import java.util.Iterator;
 import java.util.List;
 
-class InstructionRunner {
+public class InstructionRunner {
+    private Mode mode;
     private List<MuaObject> objectList;
     private Iterator<MuaObject> objectListIterator;
+    private MuaObject returnValue;
 
-    InstructionRunner(List<MuaObject> objectList) {
-        this.objectList = objectList;
+    public MuaObject getReturnValue() {
+        return returnValue;
     }
 
-    void run() throws MuaException {
+    public InstructionRunner(List<MuaObject> objectList, Mode mode) {
+        this.objectList = objectList;
+        this.mode = mode;
+    }
+
+    public void run() throws MuaException {
         objectListIterator = objectList.listIterator();
         while (objectListIterator.hasNext()) {
             MuaObject currentObject = objectListIterator.next();
             MuaObject resultObject = parseSingleObject(currentObject);
-            InterpreterController.printOnConsole(resultObject);
+            if (mode == Mode.INTERACTIVE) {
+                InterpreterController.printOnConsole(resultObject);
+            }
+            returnValue = resultObject;
         }
     }
 
@@ -33,9 +43,17 @@ class InstructionRunner {
             MuaOperator operator = (MuaOperator) currentObject;
             ArgumentList argumentList = readArguments(operator.getArgumentNum(), operator.toString());
             return operator.operate(argumentList);
-        } else {
-            return currentObject;
         }
+        boolean objectIsFunction = currentObject.getClass() == MuaFunction.class;
+        if (objectIsFunction) {
+            MuaFunction functor = (MuaFunction) currentObject;
+            if (objectListIterator.hasNext()) {
+                return functor.run(objectListIterator.next());
+            } else {
+                throw new MuaArgumentNumNotCompatibleException(functor.toString());
+            }
+        }
+        return currentObject;
     }
 
     private ArgumentList readArguments(int argumentNum, String operator) throws MuaException {
@@ -48,5 +66,12 @@ class InstructionRunner {
             }
         }
         return argumentList;
+    }
+
+    public static enum Mode {
+        //print every output
+        INTERACTIVE,
+        //only print `print` output
+        SCRIPT
     }
 }

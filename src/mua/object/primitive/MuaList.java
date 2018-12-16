@@ -2,6 +2,7 @@ package mua.object.primitive;
 
 import mua.object.MuaObject;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -16,9 +17,17 @@ public class MuaList extends MuaPrimitiveType {
         return list;
     }
 
+    public MuaObject get(int i) {
+        return list.get(i);
+    }
+
     @Override
     public String toString() {
         return list.toString();
+    }
+
+    public int size() {
+        return list.size();
     }
 
     @Override
@@ -36,5 +45,9 @@ public class MuaList extends MuaPrimitiveType {
         }
         boolean sizeNotEqual = iterator1.hasNext() || iterator2.hasNext();
         return !sizeNotEqual;
+    }
+
+    public Iterator<MuaObject> listIterator() {
+        return list.listIterator();
     }
 }

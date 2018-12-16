@@ -92,20 +92,48 @@ class DereferenceTypeHandler extends TypeHandler {
 }
 
 class OperatorTypeHandler extends TypeHandler {
-    private MuaOperator functor;
+    private MuaOperator operator;
     @Override
     public boolean isThisType(String str) {
-        functor = null;
+        operator = null;
         MuaObject objectGot = NamespaceStack.getInstance().getObject(str);
         if (objectGot == null || objectGot.getClass().getSuperclass() != MuaOperator.class) {
             return false;
         }
-        functor = (MuaOperator) objectGot;
+        operator = (MuaOperator) objectGot;
         return true;
     }
 
     @Override
     protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
+        returnList.add(operator);
+    }
+}
+
+class FunctionTypeHandler extends TypeHandler {
+    private MuaFunction functor;
+    @Override
+    public boolean isThisType(String str) {
+        functor = null;
+        MuaObject objectGot = NamespaceStack.getInstance().getObject(str);
+        if (objectGot == null || objectGot.getClass() != MuaList.class) {
+            return false;
+        }
+        MuaList listObject = (MuaList) objectGot;
+        if (listObject.size() != 2) {
+            return false;
+        }
+        MuaObject element1 = listObject.get(0);
+        MuaObject element2 = listObject.get(1);
+        if (element1.getClass() != MuaList.class || element2.getClass() != MuaList.class) {
+            return false;
+        }
+        functor = new MuaFunction(str, (MuaList) element1, (MuaList) element2);
+        return true;
+    }
+
+    @Override
+    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
         returnList.add(functor);
     }
 }

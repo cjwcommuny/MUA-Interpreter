@@ -11,7 +11,7 @@ public class Lexer {
     private String rawInstruction;
     private static TypeHandler[] typeHandlers = {
             new NumericTypeHandler(), new WordTypeHandler(), new BoolTypeHandler(), new ListTypeHandler(),
-            new DereferenceTypeHandler(), new OperatorTypeHandler(),
+            new DereferenceTypeHandler(), new OperatorTypeHandler(), new FunctionTypeHandler()
     };
 
     public Lexer(String rawInstruction) {
@@ -37,11 +37,6 @@ public class Lexer {
                     if (instruction.charAt(currentTokenStart) == '\"') {
                         //allow word "has[ and word "has"
                         continue;
-//                    } else {
-//                        throw new MuaIllegalExpressionException(
-//                                "There should be a space between '[' and the previous token",
-//                                MuaException.Level.ERROR
-//                        );
                     }
                 }
                 if (notInAPairOfBrackets) {

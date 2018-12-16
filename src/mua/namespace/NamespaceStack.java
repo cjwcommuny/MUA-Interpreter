@@ -8,6 +8,7 @@ import java.util.Stack;
 //TODO: singlton?
 public class NamespaceStack {
     private Stack<Namespace> namespaceStack = new Stack<>();
+    private Namespace generalNamespace = new Namespace();
     private static MuaOperator[] muaOperators = new MuaOperator[]{
             new MuaAddOperator(), new MuaAndOperator(), new MuaDivideOperator(), new MuaEqualOperator(),
             new MuaEraseOperator(), new MuaExitOperator(), new MuaGreatThanOperator(), new MuaIsNameOperator(),
@@ -31,7 +32,7 @@ public class NamespaceStack {
     }
 
     private void loadFunctor() {
-        Namespace namespace = namespaceStack.peek();
+        Namespace namespace = generalNamespace;
         for (MuaOperator functor: muaOperators) {
             namespace.put(functor.toString(), functor);
         }
@@ -39,7 +40,11 @@ public class NamespaceStack {
 
     public MuaObject getObject(String name) {
         Namespace topNamespace = peek();
-        return topNamespace.get(name);
+        MuaObject object = topNamespace.get(name);
+        if (object == null) {
+            object = generalNamespace.get(name);
+        }
+        return object;
     }
 
     private boolean empty() {
@@ -64,5 +69,13 @@ public class NamespaceStack {
 
     public void put(String name, MuaObject object) {
         peek().put(name, object);
+    }
+
+    public void namespaceBegin() {
+        push(new Namespace());
+    }
+
+    public void namespaceEnd() {
+        pop();
     }
 }
