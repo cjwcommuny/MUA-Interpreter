@@ -1,5 +1,6 @@
 package mua.object.primitive;
 
+import mua.exception.MuaEmptyListOrWordException;
 import mua.object.MuaObject;
 
 public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
@@ -40,19 +41,31 @@ public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
         return value.isEmpty();
     }
 
-    public MuaWord getFirstElement() {
+    public MuaWord getFirstElement() throws MuaEmptyListOrWordException {
+        if (value.length() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return new MuaWord(Character.toString(value.charAt(0)));
     }
 
-    public MuaWord getLastElement() {
+    public MuaWord getLastElement() throws MuaEmptyListOrWordException {
+        if (value.length() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return new MuaWord(Character.toString(value.charAt(value.length() -1)));
     }
 
-    public MuaWord butFirst() {
+    public MuaWord butFirst() throws MuaEmptyListOrWordException {
+        if (value.length() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return new MuaWord(value.substring(1));
     }
 
-    public MuaWord butLast() {
+    public MuaWord butLast() throws MuaEmptyListOrWordException {
+        if (value.length() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return new MuaWord(value.substring(0, value.length() - 1));
     }
 }

@@ -38,7 +38,7 @@ class NumericTypeHandler extends TypeHandler {
 class WordTypeHandler extends TypeHandler {
     @Override
     public boolean isThisType(String str) {
-        return str.length() >= 2 && str.charAt(0) == '\"';
+        return str.length() >= 1 && str.charAt(0) == '\"';
     }
 
     @Override

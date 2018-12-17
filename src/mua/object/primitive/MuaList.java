@@ -1,5 +1,6 @@
 package mua.object.primitive;
 
+import mua.exception.MuaEmptyListOrWordException;
 import mua.object.MuaObject;
 
 import java.util.Iterator;
@@ -74,21 +75,33 @@ public class MuaList extends MuaPrimitiveType {
         return new MuaList(newList);
     }
 
-    public MuaObject getFirstElement() {
+    public MuaObject getFirstElement() throws MuaEmptyListOrWordException {
+        if (list.size() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return list.get(0);
     }
 
-    public MuaObject getLastElement() {
+    public MuaObject getLastElement() throws MuaEmptyListOrWordException {
+        if (list.size() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         return list.get(list.size() - 1);
     }
 
-    public MuaList butFirst() {
+    public MuaList butFirst() throws MuaEmptyListOrWordException {
+        if (list.size() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         LinkedList<MuaObject> newList = new LinkedList<>(list);
         newList.removeFirst();
         return new MuaList(newList);
     }
 
-    public MuaList butLast() {
+    public MuaList butLast() throws MuaEmptyListOrWordException {
+        if (list.size() == 0) {
+            throw new MuaEmptyListOrWordException();
+        }
         LinkedList<MuaObject> newList = new LinkedList<>(list);
         newList.removeLast();
         return new MuaList(newList);
