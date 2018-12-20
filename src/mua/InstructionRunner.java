@@ -38,19 +38,17 @@ public class InstructionRunner {
 
     private MuaObject parseSingleObject(MuaObject currentObject) throws MuaException {
         boolean objectIsOperator = currentObject.getClass().getSuperclass() == MuaOperator.class;
+        boolean objectIsFunction = currentObject.getClass() == MuaFunction.class;
         if (objectIsOperator) {
             MuaOperator operator = (MuaOperator) currentObject;
             ArgumentList argumentList = readArguments(operator.getArgumentNum(), operator.toString());
             return operator.operate(returnValue, argumentList);
         }
-        boolean objectIsFunction = currentObject.getClass() == MuaFunction.class;
+
         if (objectIsFunction) {
             MuaFunction functor = (MuaFunction) currentObject;
-            if (objectListIterator.hasNext()) {
-                return functor.run(objectListIterator.next());
-            } else {
-                throw new MuaArgumentNumNotCompatibleException(functor.toString());
-            }
+            ArgumentList argumentList = readArguments(functor.getArgumentNum(), functor.toString());
+            return functor.run(argumentList.toMuaList());
         }
         return currentObject;
     }
@@ -67,7 +65,7 @@ public class InstructionRunner {
         return argumentList;
     }
 
-    public static enum Mode {
+    public enum Mode {
         //print every output
         INTERACTIVE,
         //only print `print` output

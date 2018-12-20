@@ -9,8 +9,9 @@ import mua.object.MuaObject;
 
 public class Lexer {
     private String rawInstruction;
+    //NumericTypeHandler and BoolTypeHandler should be placed previous to WordTypeHandler
     private static TypeHandler[] typeHandlers = {
-            new NumericTypeHandler(), new WordTypeHandler(), new BoolTypeHandler(), new ListTypeHandler(),
+            new NumericTypeHandler(), new BoolTypeHandler(), new WordTypeHandler(),  new ListTypeHandler(),
             new DereferenceTypeHandler(), new OperatorTypeHandler(), new FunctionTypeHandler()
     };
 
@@ -109,6 +110,7 @@ public class Lexer {
 
     private static List<MuaObject> evaluateToken(String token) throws MuaException {
         for (TypeHandler typeHandler: typeHandlers) {
+            //todo: if it is this type return object
             if (typeHandler.isThisType(token)) {
                 return typeHandler.returnObjectOfThisType(token);
             }

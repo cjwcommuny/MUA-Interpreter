@@ -1,6 +1,8 @@
 package mua.object.primitive;
 
 import mua.exception.MuaEmptyListOrWordException;
+import mua.lexer.BoolTypeHandler;
+import mua.lexer.NumericTypeHandler;
 import mua.object.MuaObject;
 
 public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
@@ -8,6 +10,22 @@ public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
 
     public MuaWord(String value) {
         this.value = value;
+    }
+
+    public MuaWord(MuaNumber number) {
+        this.value = Double.toString(number.getValue());
+    }
+
+    public MuaWord(MuaBool bool) {
+        this.value = Boolean.toString(bool.getValue());
+    }
+
+    public boolean isNumber() {
+        return new NumericTypeHandler().isThisType(value);
+    }
+
+    public boolean isBool() {
+        return new BoolTypeHandler().isThisType(value);
     }
 
     public String getValue() {

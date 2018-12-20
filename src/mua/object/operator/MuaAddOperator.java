@@ -4,8 +4,9 @@ import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 import mua.object.primitive.MuaNumber;
+import mua.object.primitive.MuaWord;
 
-public class MuaAddOperator extends MuaOperator {
+public class MuaAddOperator extends MuaOperator implements ArithmeticOperator {
     public static final String FUNC_NAME = "add";
     private static final int ARGUMENT_NUM = 2;
     public MuaAddOperator() {
@@ -15,13 +16,11 @@ public class MuaAddOperator extends MuaOperator {
     @Override
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
-        double op1, op2;
-        try {
-            op1 = ((MuaNumber) argumentList.get(0)).getValue();
-            op2 = ((MuaNumber) argumentList.get(1)).getValue();
-        } catch (ClassCastException e) {
-            throw new MuaArgumentTypeNotCompatibleException(this.toString());
-        }
+        MuaObject arg1 = argumentList.get(0);
+        MuaObject arg2 = argumentList.get(1);
+
+        double op1 = convertToDouble(arg1);
+        double op2 = convertToDouble(arg2);
         return new MuaNumber(op1 + op2);
     }
 

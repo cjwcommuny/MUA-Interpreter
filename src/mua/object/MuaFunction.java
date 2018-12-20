@@ -14,6 +14,10 @@ public class MuaFunction extends MuaObject {
     private MuaList instructions;
     private MuaList actualParameters;
 
+    public int getArgumentNum() {
+        return formalParameters.size();
+    }
+
     public MuaFunction(String functionName, MuaList formalParameters, MuaList instructions) {
         this.functionName = functionName;
         this.formalParameters = formalParameters;
