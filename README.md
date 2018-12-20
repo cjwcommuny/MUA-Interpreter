@@ -100,6 +100,43 @@
 
 * 退出命令 `exit`
 
+* `readlist`：返回一个从标准输入读取的一行，构成一个表，行中每个以空格分隔的部分是list的一个元素
+
+* `repeat <number> <list>`：运行list中的代码number次
+
+* 函数定义与调用
+
+  ```
+  	make <word> [<list1> <list2>]
+  		word为函数名
+  		list1为参数表
+  		list2为操作表
+  	<functionName> <arglist>
+  		<functionName>为make中定义的函数名，不需要双引号"
+  		<arglist>是参数表，<arglist>中的值和函数定义时的<list1>中名字进行一一对应绑定
+  ```
+
+* `output <value>`：设定value为返回给调用者的值，但是不停止执行
+
+* `stop`：停止执行
+
+* `export`：将本地make的值输出到全局
+
+* `isnumber <value>`：返回value是否是数字 
+
+* `isword <value>`：返回value是否是字
+
+* `islist <value>`：返回value是否是表 
+
+* `isbool <value>`：返回value是否是布尔量 
+
+* `isempty <word|list>`: 返回word或list是否是空
+
+* `random <number>`：返回[0,number)的一个随机数
+
+* `sqrt <number>`：返回number的平方根
+* `int <number>`: floor the int
+
 ## 运行方法
 
 ```shell
@@ -205,6 +242,7 @@ NamespaceStack中以堆栈的形式存储了不同的变量名空间：
 ```java
 class NamespaceStack {
     static Stack<Namespace> namespaceStack;
+    ...
 }
 ```
 
@@ -213,58 +251,22 @@ class NamespaceStack {
 ```java
 class Namespace {
     Map<String, MuaObject> map;
+    ...
 }
 ```
 
-`Namespace` 对象用 `Map` 来实现名字-对象映射。
+`Namespace` 对象用 `HashMap` 来实现名字-对象映射。
 
-## JUnit 测试
+没调用一个函数就会向栈中加一个 `namespace` ，来存储对应名字；当函数退出时，栈将顶层 `namespace` 弹出。
 
-### JUnit 测试函数
 
-```java
-void testNumberCompare();
-void testWordCompare();
-void testArithmeticOperator();
-void testDivideModuleZero();
-void testBoolOperator();
-void testMakeAndThingOperator();
-void testMakeAndPrintOperator();
-```
 
-### IO 操作
+#### 函数调用和内置运算符调用
 
-```
-make "anotherNum read
-7
-:anotherNum
-```
+函数和内置运算符分别用类 `MuaFunction` 和 `MuaOperator` 作为基类，分别有 `run()` 和 `operator()` 方法作为调用。
 
-```
-make "list3 readlist
-make "anotherList ["word1 5 true]
-:list3
-```
 
-### 其他
 
-```
-add 3 4 //this is a comment
-```
+#### `number` 和 `bool` 类型作为 `word` 的类型的特例
 
-```
-exit
-```
-
-## 可改进的地方
-
-* 架构设计与解耦合
-
-  代码依旧存在一定的耦合性，类之间的依赖关系还可以再进行调整。
-
-  一些代码互相冗余，可以再进一步提取抽象。
-
-* 其他功能
-
-  其他功能还未完成
-
+根据要求规定， `number` 和 `bool` 是 `word` 的特例，但是由于之前代码分开来写，所以为了不对代码做太大调整，没有让 `number` 和 `bool` 持有或继承 `word` ，而是在具体的 `isword` 、`isnumber` 等函数运行时才进行相互转换。
