@@ -120,6 +120,8 @@
 
 * `stop`：停止执行
 
+  `stop` 可以停止函数以及 `repeat` 和 `run` 指令
+
 * `export`：将本地make的值输出到全局
 
 * `isnumber <value>`：返回value是否是数字 
@@ -135,6 +137,7 @@
 * `random <number>`：返回[0,number)的一个随机数
 
 * `sqrt <number>`：返回number的平方根
+
 * `int <number>`: floor the int
 
 ## 运行方法
@@ -270,3 +273,20 @@ class Namespace {
 #### `number` 和 `bool` 类型作为 `word` 的类型的特例
 
 根据要求规定， `number` 和 `bool` 是 `word` 的特例，但是由于之前代码分开来写，所以为了不对代码做太大调整，没有让 `number` 和 `bool` 持有或继承 `word` ，而是在具体的 `isword` 、`isnumber` 等函数运行时才进行相互转换。
+
+
+
+#### 关于延迟解析
+
+本项目的基本原则是，能尽早解析今早解析，不能尽早解析的推迟至指令执行时解析。
+
+例如，对于 `make "func [[f] [f "helloworld ]]` ，其中 `f` 无法在仅有这条语句的时候解析出来，那么我让 `lexer` 先将它解析为 `NonDeterministicObject` ，等到指令真正执行时再查找 `Namespace` 看看是否能具体解析出来。
+
+
+
+#### 自定义函数的实现
+
+当定义一个函数时，先不解析它的参数表，只是把参数当作 `NonDeterministicObject` ，等到调用时，将参数表中的参数与具体传进去的实参相联系，并存储在 `HashMap` 中。
+
+
+
