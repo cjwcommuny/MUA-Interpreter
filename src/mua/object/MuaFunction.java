@@ -4,6 +4,8 @@ import mua.InstructionRunner;
 import mua.exception.*;
 import mua.namespace.NamespaceStack;
 import mua.object.primitive.MuaList;
+import mua.object.primitive.MuaNonDeterministic;
+import mua.object.primitive.MuaNone;
 import mua.object.primitive.MuaWord;
 
 import java.util.Iterator;
@@ -54,10 +56,11 @@ public class MuaFunction extends MuaObject {
         while (formalParameterIterator.hasNext()) {
             MuaObject formalParameter = formalParameterIterator.next();
             MuaObject actualParameter = actualParameterIterator.next();
-            if (formalParameter.getClass() != MuaWord.class) {
+            //TODO: nondeterministic
+            if (formalParameter.getClass() != MuaNonDeterministic.class) {
                 throw new MuaIllegalFunctionParameterException(functionName);
             }
-            String name = ((MuaWord) formalParameter).getValue();
+            String name = ((MuaNonDeterministic) formalParameter).getName();
             NamespaceStack.getInstance().put(name, actualParameter);
         }
     }

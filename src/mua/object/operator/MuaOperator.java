@@ -4,6 +4,8 @@ import mua.exception.MuaArgumentNumNotCompatibleException;
 import mua.exception.MuaException;
 import mua.object.*;
 
+import java.util.List;
+
 public abstract class MuaOperator extends MuaObject {
     private String funcName;
     private int argumentNum;

@@ -4,10 +4,7 @@ import mua.object.MuaObject;
 import mua.object.operator.*;
 import mua.object.primitive.MuaNumber;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 //TODO: singlton?
 public class NamespaceStack {
@@ -55,13 +52,30 @@ public class NamespaceStack {
         }
     }
 
+    private ListIterator<Namespace> reverseIterator() {
+        return namespaceStack.listIterator(namespaceStack.size());
+    }
+
     public MuaObject getObject(String name) {
         Namespace topNamespace = peek();
-        MuaObject object = topNamespace.get(name);
-        if (object == null) {
-            object = generalNamespace.get(name);
+        MuaObject object = searchGeneralObject(name);
+        if (object != null) {
+            return object;
         }
-        return object;
+        ListIterator<Namespace> stackIterator = this.reverseIterator();
+        while (stackIterator.hasPrevious()) {
+            Namespace currentNamespace = stackIterator.previous();
+            object = currentNamespace.get(name);
+            if (object != null) {
+                //found
+                return object;
+            }
+        }
+        return null;
+    }
+
+    private MuaObject searchGeneralObject(String name) {
+        return generalNamespace.get(name);
     }
 
     private boolean empty() {

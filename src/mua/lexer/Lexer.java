@@ -6,13 +6,15 @@ import mua.exception.MuaIllegalExpressionException;
 import mua.exception.MuaSymbolNotResolvableException;
 import mua.exception.MuaException;
 import mua.object.MuaObject;
+import mua.object.primitive.MuaNonDeterministic;
 
 public class Lexer {
     private String rawInstruction;
     //NumericTypeHandler and BoolTypeHandler should be placed previous to WordTypeHandler
     private static TypeHandler[] typeHandlers = {
             new NumericTypeHandler(), new BoolTypeHandler(), new WordTypeHandler(),  new ListTypeHandler(),
-            new DereferenceTypeHandler(), new OperatorTypeHandler(), new FunctionTypeHandler()
+            new DereferenceTypeHandler(), new OperatorTypeHandler(), new FunctionTypeHandler(),
+            new NonDeterministicTypeHandler()
     };
 
     public Lexer(String rawInstruction) {
@@ -21,6 +23,7 @@ public class Lexer {
 
     static List<String> instructionToTokenList(String instruction)
             throws MuaBraceNotCompatibleException, MuaIllegalExpressionException {
+        instruction = instruction + " ";
         List<String> tokenList = new LinkedList<>();
         //meet `[` counter++, meet `]` counter--
         int bracketMatchingCounter = 0;
@@ -29,31 +32,36 @@ public class Lexer {
             char currentChar = instruction.charAt(i);
             currentTokenEnd = i;
 
-            boolean notInAPairOfBrackets = (bracketMatchingCounter == 0);
-            if (currentChar == ' ' && notInAPairOfBrackets) {
+            if (currentChar == ' ' && bracketMatchingCounter == 0) {
                 addTokenList(tokenList, instruction, currentTokenStart, currentTokenEnd);
                 currentTokenStart = currentTokenEnd + 1;
+            } else if (currentChar == '\"' || currentChar == ':') {
+                //take "word and :word as a token
+                i = instruction.indexOf(' ', i) - 1;
             } else if (currentChar == '[') {
-                if (currentTokenStart != i && instruction.charAt(i-1) != ' ') {
-                    if (instruction.charAt(currentTokenStart) == '\"') {
-                        //allow word "has[ and word "has"
-                        continue;
-                    }
-                }
-                if (notInAPairOfBrackets) {
+//                if (currentTokenStart != i && instruction.charAt(i-1) != ' ') {
+//                    if (instruction.charAt(currentTokenStart) == '\"'
+//                            && instruction.charAt(currentTokenStart) == ':') {
+//                        //allow word "has[ and word "has"
+//                        continue;
+//                    }
+//                }
+                if (bracketMatchingCounter == 0) {
                     currentTokenStart = i;
                 }
                 ++bracketMatchingCounter;
             }  else if (currentChar == ']') {
-                if (currentTokenStart != i
-                        && instruction.charAt(i-1) != ' '
-                        && instruction.charAt(currentTokenStart) == '\"') {
-                    continue;
-                }
+//                if (currentTokenStart != i
+//                        && instruction.charAt(i-1) != ' '
+//                        && instruction.charAt(currentTokenStart) == '\"'
+//                        && instruction.charAt(currentTokenStart) == ':') {
+//                    continue;
+//                }
                 --bracketMatchingCounter;
-                if (notInAPairOfBrackets) {
+                if (bracketMatchingCounter == 0) {
+                    ++currentTokenEnd;
                     addTokenList(tokenList, instruction, currentTokenStart, currentTokenEnd);
-                    currentTokenStart = currentTokenEnd + 1;
+                    currentTokenStart = currentTokenEnd;
                 }
             }
         }
@@ -65,6 +73,12 @@ public class Lexer {
         }
         return tokenList;
     }
+
+//    private static String addSpaceBetweenToken(String str) {
+//        for (int i = 0; i < str.length(); ++i) {
+//
+//        }
+//    }
 
     private static void addTokenList(List<String> tokenList, String instruction, int start, int end) {
         if (start != end) {
@@ -110,11 +124,11 @@ public class Lexer {
 
     private static List<MuaObject> evaluateToken(String token) throws MuaException {
         for (TypeHandler typeHandler: typeHandlers) {
-            //todo: if it is this type return object
             if (typeHandler.isThisType(token)) {
                 return typeHandler.returnObjectOfThisType(token);
             }
         }
+        //never throw
         throw new MuaSymbolNotResolvableException(token);
     }
 }

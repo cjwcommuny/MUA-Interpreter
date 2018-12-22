@@ -11,7 +11,7 @@ public class MuaOutputOperator extends MuaOperator {
 
     @Override
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException {
-        instanceReturnValue = argumentList.get(0);
-        return new MuaNone();
+//        instanceReturnValue = argumentList.get(0);
+        return argumentList.get(0);
     }
 }

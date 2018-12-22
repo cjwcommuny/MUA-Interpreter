@@ -19,7 +19,7 @@ public class MuaRunOperator extends MuaOperator {
         InstructionRunner instructionRunner =
                 new InstructionRunner(instruction.getList(), InstructionRunner.Mode.SCRIPT);
         instructionRunner.run();
-        return new MuaNone();
+        return instructionRunner.getReturnValue();
     }
 
     public MuaRunOperator() {
