@@ -4,6 +4,7 @@ import mua.InstructionRunner;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
 import mua.exception.MuaRepeatNumberNegativeException;
+import mua.exception.MuaStopExecutionException;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaList;
 import mua.object.primitive.MuaNone;
@@ -31,7 +32,11 @@ public class MuaRepeatOperator extends MuaOperator {
         List<MuaObject> instruction = ((MuaList) object2).getList();
         InstructionRunner instructionRunner = new InstructionRunner(instruction, InstructionRunner.Mode.SCRIPT);
         for (int i = 0; i < repeatCount; ++i) {
-            instructionRunner.run();
+            try {
+                instructionRunner.run();
+            } catch (MuaStopExecutionException e) {
+                break;
+            }
         }
         return new MuaNone();
     }
