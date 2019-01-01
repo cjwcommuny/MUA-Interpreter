@@ -52,7 +52,7 @@ public class MuaWord extends MuaPrimitiveType implements Comparable<MuaWord>{
 
     @Override
     public String toString() {
-        return "\"" + getValue();
+        return getValue();
     }
 
     public boolean isEmpty() {

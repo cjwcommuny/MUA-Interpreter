@@ -1,5 +1,6 @@
 package mua.namespace;
 
+import mua.exception.MuaSymbolNotResolvableException;
 import mua.object.MuaObject;
 import mua.object.operator.*;
 import mua.object.primitive.MuaNumber;
@@ -110,12 +111,14 @@ public class NamespaceStack {
         pop();
     }
 
-    public void exportLocalName() {
+    public void exportLocalName(String name) throws MuaSymbolNotResolvableException {
         Map<String, MuaObject> currentNamespaceMap = namespaceStack.peek().getNameObjectMap();
         Namespace globalNamespace = namespaceStack.firstElement();
-        for (Map.Entry<String, MuaObject> entry: currentNamespaceMap.entrySet()) {
-            globalNamespace.put(entry.getKey(), entry.getValue());
+        MuaObject object = currentNamespaceMap.get(name);
+        if (object == null) {
+            throw new MuaSymbolNotResolvableException(name);
         }
+        globalNamespace.put(name, object);
     }
 
     public Namespace getCurrentNamespace() {

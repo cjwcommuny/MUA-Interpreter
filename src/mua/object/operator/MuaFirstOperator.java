@@ -3,7 +3,9 @@ package mua.object.operator;
 import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.exception.MuaException;
 import mua.object.MuaObject;
+import mua.object.primitive.MuaBool;
 import mua.object.primitive.MuaList;
+import mua.object.primitive.MuaNumber;
 import mua.object.primitive.MuaWord;
 
 public class MuaFirstOperator extends MuaOperator {
@@ -15,6 +17,10 @@ public class MuaFirstOperator extends MuaOperator {
             return ((MuaList) object).getFirstElement();
         } else if (object.getClass() == MuaWord.class) {
             return ((MuaWord) object).getFirstElement();
+        } else if (object.getClass() == MuaNumber.class) {
+            return new MuaWord((MuaNumber) object).getFirstElement();
+        } else if (object.getClass() == MuaBool.class) {
+            return new MuaWord((MuaBool) object).getFirstElement();
         }
         throw new MuaArgumentTypeNotCompatibleException(FUNCTION_NAME);
     }
