@@ -10,6 +10,14 @@
 
 ![RunningImage](images/RunningImage.png)
 
+## 运行方法
+
+可在浙大云盘 https://pan.zju.edu.cn/share/680121c12e7293af617b09715d 下载 `JAR` 文件
+
+```shell
+java -jar MUA-Interpreter.jar
+```
+
 ## 实现的功能
 
 * 基本数据类型 `number` , `word` , `list` , `bool`  
