@@ -12,7 +12,7 @@ public class MuaEraseAllOperator extends MuaOperator {
         return new MuaNone();
     }
 
-    public MuaEraseAllOperator(String funcName, int argumentNum, boolean isBuiltIn) {
+    public MuaEraseAllOperator() {
         super("erall", 0, true);
     }
 }

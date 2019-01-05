@@ -23,7 +23,7 @@ public class NamespaceStack {
             new MuaIfOperator(), new MuaSentenceOperator(), new MuaListOperator(), new MuaJoinOperator(),
             new MuaFirstOperator(), new MuaLastOperator(), new MuaButFirstOperator(), new MuaButLastOperator(),
             new MuaWaitOperator(), new MuaSaveOperator(), new MuaLoadOperator(), new MuaEraseOperator(),
-            new MuaPostAllOperator(), new MuaRunOperator(),
+            new MuaPostAllOperator(), new MuaRunOperator(), new MuaEraseAllOperator(),
     };
     private static NamespaceStack namespaceStackSingleton = new NamespaceStack();
 
