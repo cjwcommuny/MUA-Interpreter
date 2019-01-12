@@ -12,7 +12,7 @@
 
 ## 运行方法
 
-可在浙大云盘 https://pan.zju.edu.cn/share/680121c12e7293af617b09715d 下载 `JAR` 文件
+可在浙大云盘 https://pan.zju.edu.cn/share/357a1f949dde5f563fde8eb0d3 下载 `JAR` 文件
 
 ```shell
 java -jar MUA-Interpreter.jar
@@ -147,6 +147,8 @@ java -jar MUA-Interpreter.jar
   ![repeat](images/repeat.png)
 
 * 函数定义与调用
+
+  **注意：函数的定义必须在一行内完成，否则解析器会认为该指令未完成**
 
   ```
   	make <word> [<list1> <list2>]
