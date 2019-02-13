@@ -1,10 +1,6 @@
 # MUA Interpreter
 
-陈佳伟 
 
-3160102178
-
-3160102178@zju.edu.cn
 
 ## 运行效果
 
