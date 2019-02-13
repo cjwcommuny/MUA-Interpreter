@@ -5,6 +5,7 @@ import mua.exception.MuaException;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaBool;
 import mua.object.primitive.MuaList;
+import mua.object.primitive.MuaNumber;
 import mua.object.primitive.MuaWord;
 
 public class MuaIsEmptyOperator extends MuaOperator {
@@ -19,6 +20,8 @@ public class MuaIsEmptyOperator extends MuaOperator {
         if (object.getClass() == MuaWord.class) {
             MuaWord word = (MuaWord) object;
             return new MuaBool(word.isEmpty());
+        } else if (object.getClass() == MuaNumber.class || object.getClass() == MuaBool.class) {
+            return new MuaBool(false);
         } else if (object.getClass() == MuaList.class) {
             MuaList list = (MuaList) object;
             return new MuaBool(list.size() == 0);

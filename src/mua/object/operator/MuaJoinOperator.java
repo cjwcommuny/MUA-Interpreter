@@ -19,8 +19,9 @@ public class MuaJoinOperator extends MuaOperator {
         if (object1.getClass() != MuaList.class) {
             throw new MuaArgumentTypeNotCompatibleException(FUNCTION_NAME);
         }
-        MuaList list = (MuaList) object1;
+        MuaList list = new MuaList((MuaList) object1);
+//        MuaList list = (MuaList) object1;
         list.add(object2);
-        return new MuaNone();
+        return list;
     }
 }

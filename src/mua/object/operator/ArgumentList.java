@@ -1,6 +1,7 @@
 package mua.object.operator;
 
 import mua.object.MuaObject;
+import mua.object.primitive.MuaList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,9 @@ public class ArgumentList { //type alias
 
     public boolean add(MuaObject o) {
         return list.add(o);
+    }
+
+    public MuaList toMuaList() {
+        return new MuaList(list);
     }
 }

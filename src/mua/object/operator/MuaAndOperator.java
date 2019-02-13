@@ -5,7 +5,7 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 import mua.object.primitive.MuaBool;
 
-public class MuaAndOperator extends MuaOperator {
+public class MuaAndOperator extends MuaOperator implements BoolOperator {
     public static final String FUNC_NAME = "and";
     private static final int ARGUMENT_NUM = 2;
     public MuaAndOperator() {
@@ -15,14 +15,12 @@ public class MuaAndOperator extends MuaOperator {
     @Override
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
-        boolean op1, op2;
-        try {
-            op1 = ((MuaBool) argumentList.get(0)).getValue();
-            op2 = ((MuaBool) argumentList.get(1)).getValue();
-            return new MuaBool(op1 && op2);
-        } catch (ClassCastException e) {
-            throw new MuaArgumentTypeNotCompatibleException(this.toString());
-        }
+        MuaObject arg1 = argumentList.get(0);
+        MuaObject arg2 = argumentList.get(1);
+
+        boolean op1 = convertToBool(arg1);
+        boolean op2 = convertToBool(arg2);
+        return new MuaBool(op1 && op2);
     }
 
     @Override

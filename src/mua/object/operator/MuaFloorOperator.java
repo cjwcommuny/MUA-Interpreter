@@ -5,7 +5,7 @@ import mua.exception.MuaException;
 import mua.object.MuaObject;
 import mua.object.primitive.MuaNumber;
 
-public class MuaFloorOperator extends MuaOperator {
+public class MuaFloorOperator extends MuaOperator implements ArithmeticOperator {
     private static final String FUNCTION_NAME = "int";
     public MuaFloorOperator() {
         super(FUNCTION_NAME, 1, true);
@@ -14,10 +14,7 @@ public class MuaFloorOperator extends MuaOperator {
     @Override
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException {
         MuaObject object = argumentList.get(0);
-        if (object.getClass() != MuaNumber.class) {
-            throw new MuaArgumentTypeNotCompatibleException(FUNCTION_NAME);
-        }
-        double number = ((MuaNumber) object).getValue();
+        double number = convertToDouble(object);
         return new MuaNumber(Math.floor(number));
     }
 }

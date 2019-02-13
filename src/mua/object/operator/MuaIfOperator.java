@@ -35,6 +35,9 @@ public class MuaIfOperator extends MuaOperator {
             instructionRunner = new InstructionRunner(instruction2.getList(), InstructionRunner.Mode.SCRIPT);
         }
         instructionRunner.run();
+        if (instructionRunner.getReturnValue() != null) {
+            return instructionRunner.getReturnValue();
+        }
         return new MuaNone();
     }
 }

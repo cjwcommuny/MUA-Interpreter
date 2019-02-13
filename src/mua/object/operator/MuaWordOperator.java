@@ -17,19 +17,18 @@ public class MuaWordOperator extends MuaOperator {
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList) throws MuaException {
         MuaObject object1 = argumentList.get(0);
         MuaObject object2 = argumentList.get(1);
-        if (object1.getClass() != MuaWord.class) {
-            throw new MuaArgumentTypeNotCompatibleException(FUNC_NAME);
-        }
-        String word1 = ((MuaWord) object1).getValue();
-        if (object2.getClass() == MuaWord.class) {
-            String word2 = ((MuaWord) object2).getValue();
-            return new MuaWord(word1 + word2);
-        } else if (object2.getClass() == MuaNumber.class) {
-            double number = ((MuaNumber) object2).getValue();
-            return new MuaWord(word1 + number);
-        } else if (object2.getClass() == MuaBool.class) {
-            boolean bool = ((MuaBool) object2).getValue();
-            return new MuaWord(word1 + bool);
+        String word1 = getString(object1);
+        String word2 = getString(object2);
+        return new MuaWord(word1 + word2);
+    }
+
+    private String getString(MuaObject object) throws MuaArgumentTypeNotCompatibleException {
+        if (object.getClass() == MuaWord.class) {
+            return ((MuaWord) object).getValue();
+        } else if (object.getClass() == MuaNumber.class) {
+            return Double.toString(((MuaNumber) object).getValue());
+        } else if (object.getClass() == MuaBool.class) {
+            return Boolean.toString(((MuaBool) object).getValue());
         }
         throw new MuaArgumentTypeNotCompatibleException(FUNC_NAME);
     }

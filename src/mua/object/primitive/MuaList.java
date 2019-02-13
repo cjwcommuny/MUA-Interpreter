@@ -15,6 +15,10 @@ public class MuaList extends MuaPrimitiveType {
         this.list = list;
     }
 
+    public MuaList(MuaList muaList) {
+        this.list = muaList.getList();
+    }
+
     public List<MuaObject> getList() {
         return list;
     }

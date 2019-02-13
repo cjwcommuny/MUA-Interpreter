@@ -7,7 +7,7 @@ import mua.object.primitive.MuaBool;
 import mua.object.primitive.MuaNumber;
 import mua.object.primitive.MuaWord;
 
-public class MuaLessThanOperator extends MuaOperator {
+public class MuaLessThanOperator extends MuaOperator implements CompareOperator {
     public static final String FUNC_NAME = "lt";
     private static final int ARGUMENT_NUM = 2;
     public MuaLessThanOperator() {
@@ -20,14 +20,7 @@ public class MuaLessThanOperator extends MuaOperator {
         MuaObject op1 = argumentList.get(0);
         MuaObject op2 = argumentList.get(1);
 
-        //TODO: could be refined
-        if (op1.getClass() == MuaNumber.class && op2.getClass() == MuaNumber.class) {
-            return new MuaBool(((MuaNumber) op1).compareTo((MuaNumber) op2) < 0);
-        } else if (op1.getClass() == MuaWord.class && op2.getClass() == MuaWord.class) {
-            return new MuaBool(((MuaWord) op1).compareTo((MuaWord) op2) < 0);
-        } else {
-            throw new MuaArgumentTypeNotCompatibleException(this.toString());
-        }
+        return new MuaBool(compareTo(op1, op2) < 0);
     }
 
     @Override

@@ -9,6 +9,10 @@ public class MuaBool extends MuaPrimitiveType {
         this.value = value;
     }
 
+    public MuaBool(MuaWord word) {
+        this.value = Boolean.parseBoolean(word.getValue());
+    }
+
     public boolean getValue() {
         return value;
     }

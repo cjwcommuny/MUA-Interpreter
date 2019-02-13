@@ -21,7 +21,7 @@ public class LexerTest {
     public void evaluateTokenList() {
         List<String> tokenList1 =
                 new LinkedList<String>(
-                        Arrays.asList("make", "\"word1", "[make \"word2 read 1 [\"word3 \"word4]]", "exit")
+                        Arrays.asList("make", "\"word1", "[make \"word2 read 1 [\"word3 \"word4 ]]", "exit")
                 );
         MuaList innerMuaList = new MuaList(new LinkedList<>(
            Arrays.asList(new MuaWord("word3"), new MuaWord("word4"))

@@ -10,6 +10,10 @@ public class MuaNumber extends MuaPrimitiveType implements Comparable<MuaNumber>
         this.value = value;
     }
 
+    public MuaNumber(MuaWord word) {
+        this.value = Double.parseDouble(word.getValue());
+    }
+
     public double getValue() {
         return value;
     }

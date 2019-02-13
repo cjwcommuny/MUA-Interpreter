@@ -14,26 +14,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class TypeHandler  {
-    public abstract boolean isThisType(String str);
-    List<MuaObject> returnObjectOfThisType(String str) throws MuaException {
+    public List<MuaObject> returnObjectOfThisType(String str) throws MuaException {
         List<MuaObject> returnList = new LinkedList<>();
         addReturnObjectToList(returnList, str);
         return returnList;
     }
+    //this two function has to be used contiguously
+    public abstract boolean isThisType(String str);
+
     protected abstract void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException;
 }
 
-class NumericTypeHandler extends TypeHandler {
-    @Override
-    public boolean isThisType(String str) {
-        return str.matches("-?\\d+(\\.\\d+)?");
-    }
 
-    @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
-        returnList.add(new MuaNumber(Double.parseDouble(str)));
-    }
-}
 
 class WordTypeHandler extends TypeHandler {
     @Override
@@ -44,18 +36,6 @@ class WordTypeHandler extends TypeHandler {
     @Override
     protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
         returnList.add(new MuaWord(str.substring(1)));
-    }
-}
-
-class BoolTypeHandler extends TypeHandler {
-    @Override
-    public boolean isThisType(String str) {
-        return "true".equals(str) || "false".equals(str);
-    }
-
-    @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) {
-        returnList.add(new MuaBool(Boolean.parseBoolean(str)));
     }
 }
 
@@ -110,30 +90,3 @@ class OperatorTypeHandler extends TypeHandler {
     }
 }
 
-class FunctionTypeHandler extends TypeHandler {
-    private MuaFunction functor;
-    @Override
-    public boolean isThisType(String str) {
-        functor = null;
-        MuaObject objectGot = NamespaceStack.getInstance().getObject(str);
-        if (objectGot == null || objectGot.getClass() != MuaList.class) {
-            return false;
-        }
-        MuaList listObject = (MuaList) objectGot;
-        if (listObject.size() != 2) {
-            return false;
-        }
-        MuaObject element1 = listObject.get(0);
-        MuaObject element2 = listObject.get(1);
-        if (element1.getClass() != MuaList.class || element2.getClass() != MuaList.class) {
-            return false;
-        }
-        functor = new MuaFunction(str, (MuaList) element1, (MuaList) element2);
-        return true;
-    }
-
-    @Override
-    protected void addReturnObjectToList(List<MuaObject> returnList, String str) throws MuaException {
-        returnList.add(functor);
-    }
-}

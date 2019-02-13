@@ -5,7 +5,7 @@ import mua.exception.MuaArgumentTypeNotCompatibleException;
 import mua.object.*;
 import mua.object.primitive.MuaBool;
 
-public class MuaOrOperator extends MuaOperator {
+public class MuaOrOperator extends MuaOperator implements BoolOperator {
     public static final String FUNC_NAME = "or";
     private static final int ARGUMENT_NUM = 2;
     public MuaOrOperator() {
@@ -16,13 +16,9 @@ public class MuaOrOperator extends MuaOperator {
     public MuaObject operate(MuaObject instanceReturnValue, ArgumentList argumentList)
             throws MuaArgumentTypeNotCompatibleException {
         boolean op1, op2;
-        try {
-            op1 = ((MuaBool) argumentList.get(0)).getValue();
-            op2 = ((MuaBool) argumentList.get(1)).getValue();
-            return new MuaBool(op1 || op2);
-        } catch (ClassCastException e) {
-            throw new MuaArgumentTypeNotCompatibleException(this.toString());
-        }
+        op1 = convertToBool(argumentList.get(0));
+        op2 = convertToBool(argumentList.get(1));
+        return new MuaBool(op1 || op2);
     }
     //TODO: merge all similar operation of arithmetic operation
     @Override
